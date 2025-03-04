@@ -1,4 +1,4 @@
 package voteProject.voteUser;
 
-public record VoteUserRequest() {
+public record VoteUserRequest(String nickname) {
 }
