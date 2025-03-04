@@ -2,10 +2,13 @@ package voteProject.vote;
 
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
+import voteProject.voteUser.VoteUser;
+
 import java.time.LocalDateTime;
 
 @Entity
 public class Vote {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
@@ -16,11 +19,16 @@ public class Vote {
 
     // 투표 옵션
     @OneToMany
-    List<VoteOption> voteOption;
+    private List<VoteOption> voteOption;
+
+    //유저
+    @ManyToOne
+    private VoteUser voteUser;
 
     //총 투표수
     @Column(nullable = true)
     private Long totalVote;
+
 
     //생성 날짜
     @CreatedDate
