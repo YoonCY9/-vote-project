@@ -1,6 +1,7 @@
 package voteProject.voteUser;
 
 import jakarta.persistence.*;
+import voteProject.vote.Vote;
 
 
 @Entity

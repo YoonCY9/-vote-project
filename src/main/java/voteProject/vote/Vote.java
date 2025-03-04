@@ -2,9 +2,11 @@ package voteProject.vote;
 
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
+import voteProject.voteOption.VoteOption;
 import voteProject.voteUser.VoteUser;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Vote {
