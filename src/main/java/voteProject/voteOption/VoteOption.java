@@ -1,6 +1,7 @@
 package voteProject.voteOption;
 
 import jakarta.persistence.*;
+import voteProject.vote.Vote;
 
 @Entity
 public class VoteOption {
