@@ -1,4 +1,5 @@
 package voteProject.voteUser;
 
-public record VoteUserResponse() {
+public record VoteUserResponse(Long id,
+                               String nickname) {
 }
