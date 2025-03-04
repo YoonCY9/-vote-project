@@ -1,9 +1,6 @@
 package voteProject.voteUser;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 
 @Entity
@@ -14,6 +11,9 @@ public class VoteUser {
     private Long id;
 
     private String nickname;
+
+    @ManyToOne
+    private Vote vote;
 
     protected VoteUser() {
     }
