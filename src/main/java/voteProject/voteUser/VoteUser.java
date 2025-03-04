@@ -2,6 +2,9 @@ package voteProject.voteUser;
 
 import jakarta.persistence.*;
 import voteProject.vote.Vote;
+import voteProject.voteRecord.VoteRecord;
+
+import java.util.List;
 
 
 @Entity
@@ -11,17 +14,23 @@ public class VoteUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String nickname;
+    @Column(nullable = false)
+    private String password;
 
-    @ManyToOne
-    private Vote vote;
+    @OneToMany(mappedBy = "voteUser")
+    private List<VoteRecord> voteRecords;
+
 
     protected VoteUser() {
     }
 
-    public VoteUser(Long id, String nickname) {
+    public VoteUser(Long id, String nickname, String password, List<VoteRecord> voteRecords) {
         this.id = id;
         this.nickname = nickname;
+        this.password = password;
+        this.voteRecords = voteRecords;
     }
 
     public Long getId() {
@@ -30,5 +39,13 @@ public class VoteUser {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public List<VoteRecord> getVoteRecords() {
+        return voteRecords;
     }
 }
