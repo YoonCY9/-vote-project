@@ -1,4 +1,4 @@
-package vote.vote;
+package voteProject;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;

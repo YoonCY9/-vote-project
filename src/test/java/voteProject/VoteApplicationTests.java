@@ -1,4 +1,4 @@
-package vote.vote;
+package voteProject;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
