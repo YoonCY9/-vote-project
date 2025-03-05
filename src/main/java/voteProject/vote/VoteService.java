@@ -107,8 +107,4 @@ public class VoteService {
         );
 
     }
-//    //Todo 상세 조회 포함하는 날짜(?create = value) / 종료 날짜 (? endTime = value)
-//    public List<VoteDetailResponse> searchVoteByDate(Long startDate, Long endDate) {
-//
-//    }
 }
