@@ -25,15 +25,20 @@ public class VoteService {
     //Todo 투표 상세 조회 (id 와 포함하는 글자로만)
     public List<VoteDetailResponse> searchVoteDetail(String title, Long startDate, Long endDate) {
 
+
         if (title != null) {
             return voteRepository.findByTitleContaining(title)
                     .stream()
                     .map(vote -> new VoteDetailResponse(
                             vote.getTitle(),
-                            vote.getVoteOption(),
+                            vote.getVoteOption()
+                                    .stream()
+                                    .map(option -> new VoteOptionResponse(option.getId(), option.getContent()))
+                                    .toList(),
                             vote.getCreateAt(),
                             vote.getEndDate())).toList();
         }
+
         /*if (id != null) {
             return voteRepository.findById(id)
                     .map(vote -> List.of(new VoteDetailResponse(
@@ -53,7 +58,10 @@ public class VoteService {
                     .stream()
                     .map(vote -> new VoteDetailResponse(
                             vote.getTitle(),
-                            vote.getVoteOption(),
+                            vote.getVoteOption()
+                                    .stream()
+                                    .map(option -> new VoteOptionResponse(option.getId(), option.getContent()))
+                                    .toList(),
                             vote.getCreateAt(),
                             vote.getEndDate()
                     )).toList();
@@ -65,7 +73,10 @@ public class VoteService {
                     .stream()
                     .map(vote -> new VoteDetailResponse(
                             vote.getTitle(),
-                            vote.getVoteOption(),
+                            vote.getVoteOption()
+                                    .stream()
+                                    .map(option -> new VoteOptionResponse(option.getId(), option.getContent()))
+                                    .toList(),
                             vote.getCreateAt(),
                             vote.getEndDate()
                     )).toList();
@@ -74,7 +85,10 @@ public class VoteService {
                 .stream()
                 .map(vote -> new VoteDetailResponse(
                         vote.getTitle(),
-                        vote.getVoteOption(),
+                        vote.getVoteOption()
+                                .stream()
+                                .map(option -> new VoteOptionResponse(option.getId(), option.getContent()))
+                                .toList(),
                         vote.getCreateAt(),
                         vote.getEndDate()
                 )).toList();
@@ -91,6 +105,8 @@ public class VoteService {
                 .stream()
                 .map(option -> new VoteOption(option, vote))
                 .toList());
+
+        vote.addOption(voteOptions);
 
         List<VoteOptionResponse> optionContents = voteOptions.stream()
                 .map(option ->

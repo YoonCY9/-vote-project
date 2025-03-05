@@ -7,6 +7,7 @@ import voteProject.voteOption.VoteOption;
 import voteProject.voteRecord.VoteRecord;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,6 +24,9 @@ public class Vote {
     // 투표 기록
     @OneToMany(mappedBy = "vote")
     private List<VoteRecord> voteRecords;
+
+    @OneToMany(mappedBy = "vote")
+    private List<VoteOption> options = new ArrayList<>();
 
 //    //유저
 //    @ManyToOne
@@ -102,4 +106,20 @@ public class Vote {
     public LocalDateTime getEndDate() {
         return endDate;
     }
+
+    public List<VoteRecord> getVoteRecords() {
+        return voteRecords;
+    }
+
+    public List<VoteOption> getOptions() {
+        return options;
+    }
+
+    public void addOption(List<VoteOption> voteOptions) {
+        for (VoteOption option : voteOptions) {
+            options.add(option);
+            option.setVote(this);
+        }
+    }
+
 }

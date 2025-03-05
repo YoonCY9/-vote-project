@@ -56,4 +56,8 @@ public class VoteOption {
     public Vote getVote() {
         return vote;
     }
+
+    public void setVote(Vote vote) {
+        this.vote = vote;
+    }
 }
