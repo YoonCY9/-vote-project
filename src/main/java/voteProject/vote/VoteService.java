@@ -1,15 +1,13 @@
 package voteProject.vote;
 
 import org.springframework.stereotype.Service;
-import voteProject.vote.voteDTO.VoteDetailResponse;
-import voteProject.vote.voteDTO.CreateVoteRequest;
-import voteProject.vote.voteDTO.VoteOptionResponse;
-import voteProject.vote.voteDTO.VoteResponse;
+import voteProject.vote.voteDTO.*;
 import voteProject.voteOption.VoteOption;
 import voteProject.voteOption.VoteOptionRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class VoteService {
@@ -111,4 +109,37 @@ public class VoteService {
 //    public List<VoteDetailResponse> searchVoteByDate(Long startDate, Long endDate) {
 //
 //    }
+
+    // 투표 전체조회
+    public VoteListResponse findAll() {
+        List<Vote> votes = voteRepository.findAll();
+
+        List<VoteFindResponse> voteDTO = votes.stream().map(v -> new VoteFindResponse(
+                v.getId(),
+                v.getTitle(),
+                v.getTotalVote(),
+                v.getCreateAt(),
+                v.getEndTime()
+        )).toList();
+
+        return new VoteListResponse(voteDTO);
+    }
+
+    public VoteResponse findByVoteId(Long voteId) {
+        Vote vote = voteRepository.findById(voteId).orElseThrow(() ->
+                new NoSuchElementException("존재하지 않는 voteId" + voteId));
+
+        List<VoteOption> voteOptions = voteOptionRepository.findByVoteId(vote.getId());
+
+        List<VoteOptionResponse> optionResponseList = voteOptions.stream().map(v -> new VoteOptionResponse(
+                v.getId(),
+                v.getContent())).toList();
+
+        return new VoteResponse(
+                vote.getId(),
+                vote.getTitle(),
+                optionResponseList,
+                vote.getCreateAt(),
+                vote.getEndTime());
+    }
 }

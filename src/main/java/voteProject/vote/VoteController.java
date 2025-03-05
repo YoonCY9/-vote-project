@@ -3,21 +3,22 @@ package voteProject.vote;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import voteProject.vote.voteDTO.VoteDetailResponse;
-
-import voteProject.vote.voteDTO.CreateVoteRequest;
-import voteProject.vote.voteDTO.VoteResponse;
+import voteProject.vote.voteDTO.*;
 
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 public class VoteController {
     private final VoteService voteService;
+    private final VoteRepository voteRepository;
 
 
-    public VoteController(VoteService voteService) {
+    public VoteController(VoteService voteService,
+                          VoteRepository voteRepository) {
         this.voteService = voteService;
+        this.voteRepository = voteRepository;
     }
 
     //조회
@@ -42,5 +43,16 @@ public class VoteController {
     public VoteResponse create(@RequestBody CreateVoteRequest createVoteRequest){
         return voteService.create(createVoteRequest);
     }
+
+    @GetMapping("/votes")
+    public VoteListResponse findAll() {
+        return voteService.findAll();
+    }
+
+    @GetMapping("/votes/{voteId}")
+    public VoteResponse findByVoteId(@PathVariable Long voteId) {
+        return voteService.findByVoteId(voteId);
+    }
+
 
 }
