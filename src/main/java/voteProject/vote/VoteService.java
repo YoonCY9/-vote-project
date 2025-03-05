@@ -81,7 +81,6 @@ public class VoteService {
     public VoteResponse create(CreateVoteRequest createVoteRequest) {
         Vote vote = voteRepository.save(new Vote(
                 createVoteRequest.title(),
-                LocalDateTime.now(),
                 createVoteRequest.endTime()
         ));
 
@@ -119,7 +118,7 @@ public class VoteService {
                 v.getTitle(),
                 v.getTotalVote(),
                 v.getCreateAt(),
-                v.getEndTime()
+                v.getEndDate()
         )).toList();
 
         return new VoteListResponse(voteDTO);
@@ -140,6 +139,6 @@ public class VoteService {
                 vote.getTitle(),
                 optionResponseList,
                 vote.getCreateAt(),
-                vote.getEndTime());
+                vote.getEndDate());
     }
 }

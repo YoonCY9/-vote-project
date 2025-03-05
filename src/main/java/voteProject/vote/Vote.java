@@ -3,12 +3,14 @@ package voteProject.vote;
 import jakarta.persistence.*;
 import org.apache.tomcat.util.net.NioEndpoint;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import voteProject.voteOption.VoteOption;
 import voteProject.voteRecord.VoteRecord;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 public class Vote {
 
@@ -50,9 +52,8 @@ public class Vote {
     public Vote() {
     }
 
-    public Vote(String title, LocalDateTime createAt, LocalDateTime endDate) {
+    public Vote(String title, LocalDateTime endDate) {
         this.title = title;
-        this.createAt = createAt;
         this.endDate = endDate;
     }
 
