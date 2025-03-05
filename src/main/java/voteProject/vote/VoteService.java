@@ -7,6 +7,7 @@ import voteProject.voteOption.VoteOptionRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class VoteService {
@@ -121,5 +122,23 @@ public class VoteService {
         )).toList();
 
         return new VoteListResponse(voteDTO);
+    }
+
+    public VoteResponse findByVoteId(Long voteId) {
+        Vote vote = voteRepository.findById(voteId).orElseThrow(() ->
+                new NoSuchElementException("존재하지 않는 voteId" + voteId));
+
+        List<VoteOption> voteOptions = voteOptionRepository.findByVoteId(vote.getId());
+
+        List<VoteOptionResponse> optionResponseList = voteOptions.stream().map(v -> new VoteOptionResponse(
+                v.getId(),
+                v.getContent())).toList();
+
+        return new VoteResponse(
+                vote.getId(),
+                vote.getTitle(),
+                optionResponseList,
+                vote.getCreateAt(),
+                vote.getEndTime());
     }
 }
