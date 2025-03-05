@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import voteProject.DatabaseCleanup;
 import voteProject.vote.voteDTO.CreateVoteRequest;
-import voteProject.vote.voteDTO.VoteOptionRequest;
 import voteProject.vote.voteDTO.VoteResponse;
 
 import java.time.LocalDateTime;
@@ -47,35 +46,4 @@ public class VoteTest {
                 .extract()
                 .as(VoteResponse.class);
     }
-
-    /*@Test
-    void 투표생성() {
-        // Given
-        List<VoteOptionRequest> voteOptions = List.of(
-                new VoteOptionRequest("중국집"),
-                new VoteOptionRequest("한식"),
-                new VoteOptionRequest("일식"),
-                new VoteOptionRequest("양식")
-        );
-
-        CreateVoteRequest request = new CreateVoteRequest(
-                "저메추",
-                voteOptions,
-                LocalDateTime.now(),
-                LocalDateTime.now().plusDays(1)
-        );
-
-        // When
-        VoteResponse response = RestAssured
-                .given().log().all()
-                .port(port)
-                .contentType(ContentType.JSON)
-                .body(request)
-                .when()
-                .post("/votes")
-                .then().log().all()
-                .statusCode(200)
-                .extract()
-                .as(VoteResponse.class);
-    }*/
 }
