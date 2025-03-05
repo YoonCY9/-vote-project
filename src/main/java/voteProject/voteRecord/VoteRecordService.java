@@ -37,7 +37,7 @@ public class VoteRecordService {
                 () -> new IllegalArgumentException("존재하지 않는 옵션입니다.")
         );
 
-        if(voteRecordRepository.findByVoteUserIdAndVoteId(request.userId(), request.voteId()).isPresent()){
+        if(voteRecordRepository.findByVoteUserIdAndVoteIdAndVoteOptionId(request.userId(), request.voteId(), request.voteOption()).isPresent()){
             throw new IllegalStateException("이미 투표에 참여하셨습니다.");
         }
 
