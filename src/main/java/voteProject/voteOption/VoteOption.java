@@ -2,6 +2,9 @@ package voteProject.voteOption;
 
 import jakarta.persistence.*;
 import voteProject.vote.Vote;
+import voteProject.voteRecord.VoteRecord;
+
+import java.util.List;
 
 @Entity
 public class VoteOption {
@@ -16,7 +19,10 @@ public class VoteOption {
     int count;
 
     @ManyToOne
-    Vote vote;
+    private Vote vote;
+
+    @OneToMany(mappedBy = "voteOption")
+    private List<VoteRecord> voteRecords;
 
     protected VoteOption() {
     }
