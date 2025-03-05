@@ -21,5 +21,32 @@ public class VoteRecord {
     @ManyToOne
     private VoteOption voteOption;
 
+    protected VoteRecord() {
+    }
 
+    public VoteRecord(Vote vote, VoteUser voteUser, VoteOption voteOption) {
+        this.vote = vote;
+        this.voteUser = voteUser;
+        this.voteOption = voteOption;
+    }
+
+    public VoteRecord(VoteOption voteOption) {
+        this.voteOption = voteOption;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Vote getVote() {
+        return vote;
+    }
+
+    public VoteUser getVoteUser() {
+        return voteUser;
+    }
+
+    public VoteOption getVoteOption() {
+        return voteOption;
+    }
 }
