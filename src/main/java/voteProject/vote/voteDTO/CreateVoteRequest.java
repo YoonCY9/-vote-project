@@ -1,4 +1,13 @@
 package voteProject.vote.voteDTO;
 
-public record CreateVoteRequest
-        () { }
+import voteProject.voteOption.VoteOptionRequest;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+public record CreateVoteRequest(
+    String title,
+    List<VoteOptionRequest> options ,
+    LocalDateTime createAt,
+    LocalDateTime endTime
+) { }

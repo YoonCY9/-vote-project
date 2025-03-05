@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import voteProject.voteOption.VoteOption;
 import voteProject.voteRecord.VoteRecord;
-import voteProject.voteUser.VoteUser;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,7 +31,9 @@ public class Vote {
     @Column(nullable = true)
     private Long totalVote;
 
-
+    @Column(nullable = false)
+    @OneToMany
+    List<VoteOption> voteOption;
     //생성 날짜
     @CreatedDate
     private LocalDateTime createAt;
@@ -48,6 +49,7 @@ public class Vote {
     public Vote(Long id,
                 String title,
                 List<VoteRecord> voteRecords,
+                List<VoteOption> voteOption,
                 Long totalVote,
                 LocalDateTime createAt,
                 boolean isClose,
@@ -56,6 +58,7 @@ public class Vote {
         Id = id;
         this.title = title;
         this.voteRecords = voteRecords;
+        this.voteOption = voteOption;
         this.totalVote = totalVote;
         this.createAt = createAt;
         this.isClose = isClose;
@@ -70,8 +73,8 @@ public class Vote {
         return title;
     }
 
-    public List<VoteRecord> getVoteRecords() {
-        return voteRecords;
+    public List<VoteOption> getVoteOption() {
+        return voteOption;
     }
 
     public Long getTotalVote() {
