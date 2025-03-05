@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import voteProject.vote.voteDTO.VoteDetailResponse;
 
 import voteProject.vote.voteDTO.CreateVoteRequest;
+import voteProject.vote.voteDTO.VoteListResponse;
 import voteProject.vote.voteDTO.VoteResponse;
 
 
@@ -41,6 +42,11 @@ public class VoteController {
     @PostMapping("/votes")
     public VoteResponse create(@RequestBody CreateVoteRequest createVoteRequest){
         return voteService.create(createVoteRequest);
+    }
+
+    @GetMapping("/votes")
+    public VoteListResponse findAll() {
+        return voteService.findAll();
     }
 
 }
