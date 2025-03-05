@@ -1,13 +1,13 @@
 package voteProject.vote.voteDTO;
 
-import voteProject.voteOption.VoteOptionRequest;
+import voteProject.voteOption.VoteOption;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record CreateVoteRequest(
+public record VoteDetailResponse(
         String title,
-        List<VoteOptionRequest> options,
+        List<VoteOption> options,
         LocalDateTime createAt,
         LocalDateTime endTime
 ) {

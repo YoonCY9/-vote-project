@@ -6,25 +6,27 @@ import voteProject.vote.voteDTO.VoteDetailResponse;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class VoteController {
     private final VoteService voteService;
 
     public VoteController(VoteService voteService) {
         this.voteService = voteService;
     }
-
+    //상세 조회
     @GetMapping("/api/votes/{id}")
     public List<VoteDetailResponse> getVoteDetail(
             @RequestBody String title,
-            @PathVariable Long id) {
-        return voteService.searchVoteDetail(title, id);
+            @PathVariable Long id,
+            @RequestParam Long startDate,
+            @RequestParam Long endDate) {
+        return voteService.searchVoteDetail(title, id,startDate,endDate);
     }
-
-    @GetMapping("/api/votes/dates")
-    public List<VoteDetailResponse> getVoteDetail(
-            @RequestParam (required = false) Long startDate,
-            @RequestParam (required = false) Long endDate) {
-        return voteService.searchVoteByDate(startDate, endDate);
-    }
+//
+//    @GetMapping("/api/votes/dates")
+//    public List<VoteDetailResponse> getVoteDetail(
+//            @RequestParam (required = false) Long startDate,
+//            @RequestParam (required = false) Long endDate) {
+//        return voteService.searchVoteByDate(startDate, endDate);
+//    }
 }

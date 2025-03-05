@@ -53,8 +53,7 @@ public class Vote {
                 Long totalVote,
                 LocalDateTime createAt,
                 boolean isClose,
-                LocalDateTime endTime)
-    {
+                LocalDateTime endTime) {
         Id = id;
         this.title = title;
         this.voteRecords = voteRecords;
