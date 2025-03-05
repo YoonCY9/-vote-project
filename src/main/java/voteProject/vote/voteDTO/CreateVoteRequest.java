@@ -6,12 +6,8 @@ import java.util.List;
 
 public record CreateVoteRequest(
         String title,
-        List<VoteOptionRequest> options,
+        List<String> voteOptions,
         LocalDateTime createAt,
         LocalDateTime endTime
 ) {
 }
-        List<String> voteContent,
-        LocalDateTime startTime,
-        LocalDateTime endTime
-) { }

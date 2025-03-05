@@ -17,10 +17,9 @@ public class VoteService {
     private final VoteRepository voteRepository;
     private final VoteOptionRepository voteOptionRepository;
 
-    public VoteService(VoteRepository voteRepository, VoteOptionRepository voteOptionRepository) {
+    public VoteService(VoteRepository voteRepository, VoteOptionRepository voteOptionRepository, VoteOptionRepository voteOptionRepository1) {
         this.voteRepository = voteRepository;
-
-
+        this.voteOptionRepository = voteOptionRepository1;
     }
 
     //Todo 투표 상세 조회 (id 와 포함하는 글자로만)
@@ -78,7 +77,6 @@ public class VoteService {
                         vote.getCreateAt(),
                         vote.getEndTime()
                 )).toList();
-        this.voteOptionRepository = voteOptionRepository;
     }
 
     public VoteResponse create(CreateVoteRequest createVoteRequest) {
@@ -88,7 +86,7 @@ public class VoteService {
                 createVoteRequest.endTime()
         ));
 
-        List<VoteOption> voteOptions = voteOptionRepository.saveAll(createVoteRequest.voteContent()
+        List<VoteOption> voteOptions = voteOptionRepository.saveAll(createVoteRequest.voteOptions()
                 .stream()
                 .map(option -> new VoteOption(option, vote))
                 .toList());
