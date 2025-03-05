@@ -36,11 +36,7 @@ public class VoteController {
 //        return voteService.searchVoteByDate(startDate, endDate);
 //    }
 
-    private final VoteService voteService;
 
-    public VoteController(VoteService voteService) {
-        this.voteService = voteService;
-    }
 
     @PostMapping("/votes")
     public VoteResponse create(@RequestBody CreateVoteRequest createVoteRequest){
