@@ -53,6 +53,7 @@ public class VoteService {
                 vote.getEndTime()
         );
 
+        //브랜치 보호
 
     }
 }
