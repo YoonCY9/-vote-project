@@ -1,6 +1,7 @@
 package voteProject.voteUser;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import voteProject.vote.Vote;
 import voteProject.voteRecord.VoteRecord;
 
@@ -16,6 +17,7 @@ public class VoteUser {
 
     @Column(nullable = false)
     private String nickname;
+
     @Column(nullable = false)
     private String password;
 
@@ -31,6 +33,11 @@ public class VoteUser {
         this.nickname = nickname;
         this.password = password;
         this.voteRecords = voteRecords;
+    }
+
+    public VoteUser(String nickname, String password) {
+        this.nickname = nickname;
+        this.password = password;
     }
 
     public Long getId() {
