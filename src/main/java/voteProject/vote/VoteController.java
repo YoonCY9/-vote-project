@@ -19,14 +19,14 @@ public class VoteController {
     public VoteController(VoteService voteService) {
         this.voteService = voteService;
     }
-    //상세 조회
-    @GetMapping("/api/votes/{id}")
+
+    //조회
+    @GetMapping("/api/votes")
     public List<VoteDetailResponse> getVoteDetail(
-            @RequestBody String title,
-            @PathVariable Long id,
-            @RequestParam Long startDate,
-            @RequestParam Long endDate) {
-        return voteService.searchVoteDetail(title, id,startDate,endDate);
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) Long startDate,
+            @RequestParam(required = false) Long endDate) {
+        return voteService.searchVoteDetail(title,startDate,endDate);
     }
 //
 //    @GetMapping("/api/votes/dates")
