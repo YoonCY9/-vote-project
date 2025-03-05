@@ -1,6 +1,7 @@
 package voteProject.vote;
 
 import jakarta.persistence.*;
+import org.apache.tomcat.util.net.NioEndpoint;
 import org.springframework.data.annotation.CreatedDate;
 import voteProject.voteOption.VoteOption;
 import voteProject.voteRecord.VoteRecord;
@@ -44,15 +45,15 @@ public class Vote {
 
     //종료 일시
     @Column(nullable = false)
-    private LocalDateTime endTime;
+    private LocalDateTime endDate;
 
     public Vote() {
     }
 
-    public Vote(String title, LocalDateTime createAt, LocalDateTime endTime) {
+    public Vote(String title, LocalDateTime createAt, LocalDateTime endDate) {
         this.title = title;
         this.createAt = createAt;
-        this.endTime = endTime;
+        this.endDate = endDate;
     }
 
     public Vote(Long id,
@@ -62,7 +63,7 @@ public class Vote {
                 Long totalVote,
                 LocalDateTime createAt,
                 boolean isClose,
-                LocalDateTime endTime) {
+                LocalDateTime endDate) {
         Id = id;
         this.title = title;
         this.voteRecords = voteRecords;
@@ -70,7 +71,8 @@ public class Vote {
         this.totalVote = totalVote;
         this.createAt = createAt;
         this.isClose = isClose;
-        this.endTime = endTime;
+        this.endDate = endDate;
+
     }
 
     public Long getId() {
@@ -97,8 +99,7 @@ public class Vote {
         return isClose;
     }
 
-    public LocalDateTime getEndTime() {
-        return endTime;
+    public LocalDateTime getEndDate() {
+        return endDate;
     }
-
 }

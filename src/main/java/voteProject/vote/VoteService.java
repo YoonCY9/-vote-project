@@ -23,29 +23,30 @@ public class VoteService {
     }
 
     //Todo 투표 상세 조회 (id 와 포함하는 글자로만)
-    public List<VoteDetailResponse> searchVoteDetail(String title, Long id, Long startDate, Long endDate) {
-
+    public List<VoteDetailResponse> searchVoteDetail(String title, Long startDate, Long endDate) {
 
         if (title != null) {
-            return voteRepository.findByContaningTitle(title)
+            return voteRepository.findByTitleContaining(title)
                     .stream()
                     .map(vote -> new VoteDetailResponse(
                             vote.getTitle(),
                             vote.getVoteOption(),
                             vote.getCreateAt(),
-                            vote.getEndTime())).toList();
+                            vote.getEndDate())).toList();
         }
-        if (id != null) {
+        /*if (id != null) {
             return voteRepository.findById(id)
                     .map(vote -> List.of(new VoteDetailResponse(
                                     vote.getTitle(),
                                     vote.getVoteOption(),
                                     vote.getCreateAt(),
-                                    vote.getEndTime()
+                                    vote.getEndDate()
                             )
                     ))
                     .orElseThrow(() -> new IllegalArgumentException("찾을수 없는 id"));
         }
+
+         */
         if (startDate != null) {
             return voteRepository.findByCreateAtAfter(LocalDateTime.now()
                             .minusDays(startDate))
@@ -54,7 +55,7 @@ public class VoteService {
                             vote.getTitle(),
                             vote.getVoteOption(),
                             vote.getCreateAt(),
-                            vote.getEndTime()
+                            vote.getEndDate()
                     )).toList();
         }
         if (endDate != null) {
@@ -66,7 +67,7 @@ public class VoteService {
                             vote.getTitle(),
                             vote.getVoteOption(),
                             vote.getCreateAt(),
-                            vote.getEndTime()
+                            vote.getEndDate()
                     )).toList();
         }
         return voteRepository.findAll()
@@ -75,7 +76,7 @@ public class VoteService {
                         vote.getTitle(),
                         vote.getVoteOption(),
                         vote.getCreateAt(),
-                        vote.getEndTime()
+                        vote.getEndDate()
                 )).toList();
     }
 
@@ -102,7 +103,7 @@ public class VoteService {
                 vote.getTitle(),
                 optionContents,
                 vote.getCreateAt(),
-                vote.getEndTime()
+                vote.getEndDate()
         );
 
     }

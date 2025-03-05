@@ -46,4 +46,32 @@ public class VoteTest {
                 .extract()
                 .as(VoteResponse.class);
     }
+
+    @Test
+    void name() {
+        RestAssured
+           .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateVoteRequest(
+                        "저메추",
+                        List.of("중국집", "한식", "일식", "양식"),
+                        LocalDateTime.now(),
+                        LocalDateTime.now().plusDays(1)
+                ))
+                .when()
+                .post("/votes")
+                .then().log().all()
+                .statusCode(200)
+                .extract()
+                .as(VoteResponse.class);
+
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .queryParam("title","저메")
+                .when()
+                .get("/api/votes")
+                .then().log().all()
+                .statusCode(200);
+    }
 }
