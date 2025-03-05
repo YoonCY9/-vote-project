@@ -34,6 +34,13 @@ public class VoteOption {
         this.vote = vote;
     }
 
+    public VoteOption(String content, Vote vote) {
+        this.content = content;
+        this.vote = vote;
+    }
+
+
+
     public Long getId() {
         return id;
     }

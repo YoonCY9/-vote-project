@@ -1,6 +1,13 @@
 package voteProject.vote.voteDTO;
 
-public record VoteResponse(
+import java.time.LocalDateTime;
+import java.util.List;
 
+public record VoteResponse(
+        Long voteId,
+        String title,
+        List<VoteOptionResponse> voteContent,
+        LocalDateTime startTime,
+        LocalDateTime endTime
 ) {
 }

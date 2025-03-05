@@ -46,6 +46,15 @@ public class Vote {
     @Column(nullable = false)
     private LocalDateTime endTime;
 
+    public Vote() {
+    }
+
+    public Vote(String title, LocalDateTime createAt, LocalDateTime endTime) {
+        this.title = title;
+        this.createAt = createAt;
+        this.endTime = endTime;
+    }
+
     public Vote(Long id,
                 String title,
                 List<VoteRecord> voteRecords,
