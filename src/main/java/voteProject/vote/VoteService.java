@@ -3,7 +3,6 @@ package voteProject.vote;
 import org.springframework.stereotype.Service;
 import voteProject.vote.voteDTO.VoteDetailResponse;
 import voteProject.vote.voteDTO.CreateVoteRequest;
-import voteProject.vote.voteDTO.VoteOptionRequest;
 import voteProject.vote.voteDTO.VoteOptionResponse;
 import voteProject.vote.voteDTO.VoteResponse;
 import voteProject.voteOption.VoteOption;
@@ -88,11 +87,6 @@ public class VoteService {
                 LocalDateTime.now(),
                 createVoteRequest.endTime()
         ));
-
-       /* List<VoteOption> voteOptions = createVoteRequest.voteContent()
-                .stream()
-                .map(option -> new VoteOption(option.voteContent(), vote))
-                .toList();*/
 
         List<VoteOption> voteOptions = voteOptionRepository.saveAll(createVoteRequest.voteContent()
                 .stream()
