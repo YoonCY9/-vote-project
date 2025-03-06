@@ -52,6 +52,10 @@ public class Vote {
     @Column(nullable = false)
     private int durationDays;
 
+    //익명 투표 여부
+    @Column(nullable = false)
+    private boolean isAnonymous = false;
+
     public Vote() {
     }
 
@@ -61,23 +65,17 @@ public class Vote {
         this.durationDays = durationDays;
     }
 
-    public Vote(Long id,
-                String title,
-                List<VoteRecord> voteRecords,
-                List<VoteOption> voteOption,
-                Long totalVote,
-                LocalDateTime createAt,
-                boolean isClose,
-                LocalDateTime endDate) {
-        Id = id;
+
+    public Vote(String title, List<VoteRecord> voteRecords, Long totalVote, List<VoteOption> voteOption, LocalDateTime createAt, boolean isClose, LocalDateTime endDate, int durationDays, boolean isAnonymous) {
         this.title = title;
         this.voteRecords = voteRecords;
-        this.voteOption = voteOption;
         this.totalVote = totalVote;
+        this.voteOption = voteOption;
         this.createAt = createAt;
         this.isClose = isClose;
         this.endDate = endDate;
-
+        this.durationDays = durationDays;
+        this.isAnonymous = isAnonymous;
     }
 
     public Long getId() {
@@ -110,5 +108,9 @@ public class Vote {
 
     public int getDurationDays() {
         return durationDays;
+    }
+
+    public boolean isAnonymous() {
+        return isAnonymous;
     }
 }

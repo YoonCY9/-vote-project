@@ -15,10 +15,10 @@ public class VoteUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String nickname;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String password;
 
     @OneToMany(mappedBy = "voteUser")
