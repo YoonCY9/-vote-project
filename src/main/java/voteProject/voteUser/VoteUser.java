@@ -28,13 +28,6 @@ public class VoteUser {
     protected VoteUser() {
     }
 
-    public VoteUser(Long id, String nickname, String password, List<VoteRecord> voteRecords) {
-        this.id = id;
-        this.nickname = nickname;
-        this.password = password;
-        this.voteRecords = voteRecords;
-    }
-
     public VoteUser(String nickname, String password) {
         this.nickname = nickname;
         this.password = password;

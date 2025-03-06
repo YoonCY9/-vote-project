@@ -1,11 +1,11 @@
 package voteProject.vote;
 
 import jakarta.persistence.*;
-import org.apache.tomcat.util.net.NioEndpoint;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import voteProject.voteOption.VoteOption;
 import voteProject.voteRecord.VoteRecord;
+import voteProject.voteUser.VoteUser;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,6 +26,11 @@ public class Vote {
     @OneToMany(mappedBy = "vote")
     private List<VoteRecord> voteRecords;
 
+//    //유저
+    @ManyToOne
+    private VoteUser voteUser;
+
+    //총 투표수
     @Column(nullable = true)
     private Long totalVote;
 
@@ -50,32 +55,25 @@ public class Vote {
     @Column(nullable = false)
     private int durationDays;
 
+    @Column(nullable = false)
+    private boolean isDeleted = false;
+
     public Vote() {
     }
 
-    public Vote(String title, VoteType voteType, LocalDateTime endDate, int durationDays) {
+    public Vote(VoteUser voteUser, String title, VoteType voteType, LocalDateTime endDate, int durationDays) {
+        this.voteUser = voteUser;
         this.title = title;
         this.voteType = voteType;
         this.endDate = endDate;
         this.durationDays = durationDays;
     }
 
-    public Vote(Long id,
-                String title,
-                List<VoteRecord> voteRecords,
-                List<VoteOption> voteOption,
-                Long totalVote,
-                LocalDateTime createAt,
-                boolean isClose,
-                LocalDateTime endDate) {
-        Id = id;
-        this.title = title;
-        this.voteRecords = voteRecords;
-        this.voteOption = voteOption;
-        this.totalVote = totalVote;
-        this.createAt = createAt;
-        this.isClose = isClose;
-        this.endDate = endDate;
+    // 삭제됐는지?????
+    public void isDeleted() {
+        if (isDeleted) {
+            throw new IllegalArgumentException("삭제된 투표입니다.");
+        }
 
     }
 
@@ -117,6 +115,10 @@ public class Vote {
 
     public void setVoteType(VoteType voteType) {
         this.voteType = voteType;
+    }
+
+    public void deleteVote() {
+        this.isDeleted = true;
     }
 
 }

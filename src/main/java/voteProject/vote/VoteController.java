@@ -24,22 +24,25 @@ public class VoteController {
     //목록 조회
     @GetMapping("/votes")
     public List<VoteFindResponse> getVoteDetail(
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) Long startDate,
-            @RequestParam(required = false) Long endDate) {
-        return voteService.searchVoteDetail(title,startDate,endDate);
+            @RequestParam(required = false) String title) {
+        return voteService.searchVoteDetail(title);
     }
 
 
-    @PostMapping("/votes")
-    public VoteResponse create(@RequestBody CreateVoteRequest createVoteRequest){
-        return voteService.create(createVoteRequest);
+    @PostMapping("/votes/{userid}")
+    public VoteResponse create(@RequestBody CreateVoteRequest createVoteRequest, @PathVariable Long userid){
+        return voteService.create(createVoteRequest, userid);
     }
 
 
     @GetMapping("/votes/{voteId}")
     public VoteDetailResponse findByVoteId(@PathVariable Long voteId) {
         return voteService.findByVoteId(voteId);
+    }
+
+    @DeleteMapping("/votes/{voteId}")
+    public void delete(@PathVariable Long voteId) {
+        voteService.delete(voteId);
     }
 
 
