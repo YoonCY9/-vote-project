@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class VoteTest {
@@ -136,7 +137,7 @@ public class VoteTest {
         RestAssured
                 .given().log().all()
                 .contentType(ContentType.JSON)
-                .body(new VoteRecordRequest(1L, null, 3L, true))
+                .body(new VoteRecordRequest(1L, null, List.of(3L), true))
                 .when()
                 .post("/voteRecords")
                 .then().log().all()
@@ -176,13 +177,87 @@ public class VoteTest {
         RestAssured
                 .given().log().all()
                 .contentType(ContentType.JSON)
-                .body(new VoteRecordRequest(1L, 1L, 3L, false))
+                .body(new VoteRecordRequest(1L, 1L, List.of(3L), false))
                 .when()
                 .post("/voteRecords")
                 .then().log().all()
                 .statusCode(HttpStatus.OK.value());
     }
 
+    @Test
+    void 유저생성투표생성및비익명복수투표테스트 (){
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateVoteUserRequest("닉네임", "486"))
+                .when()
+                .post("/voteusers")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+        given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateVoteRequest(
+                        "저메추",
+                        List.of("중국집", "한식", "일식", "양식"),
+                        VoteType.MULTIPLE,
+                        1,
+                        LocalDateTime.now()
+                ))
+                .when()
+                .post("/votes")
+                .then().log().all()
+                .statusCode(200)
+                .extract()
+                .as(VoteResponse.class);
+
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new VoteRecordRequest(1L, 1L, List.of(1L, 3L, 4L), false))
+                .when()
+                .post("/voteRecords")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 유저생성투표생성및비익명단일투표_예외테스트 (){
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateVoteUserRequest("닉네임", "486"))
+                .when()
+                .post("/voteusers")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+        given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateVoteRequest(
+                        "저메추",
+                        List.of("중국집", "한식", "일식", "양식"),
+                        VoteType.SINGLE,
+                        1,
+                        LocalDateTime.now()
+                ))
+                .when()
+                .post("/votes")
+                .then().log().all()
+                .statusCode(200)
+                .extract()
+                .as(VoteResponse.class);
+
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new VoteRecordRequest(1L, 1L, List.of(1L, 3L, 4L), false))
+                .when()
+                .post("/voteRecords")
+                .then().log().all()
+                .statusCode(409)
+                .body("message", equalTo("단일 선택 투표에서는 하나의 옵션만 선택 가능합니다."));
+    }
 
 
 }
