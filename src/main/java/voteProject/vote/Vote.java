@@ -116,9 +116,6 @@ public class Vote {
         return voteType;
     }
 
-    public void setVoteType(VoteType voteType) {
-        this.voteType = voteType;
-    }
 
     public void validateOptionCount(List<Long> requestOptionId){
 
@@ -131,7 +128,7 @@ public class Vote {
         }
 
         if(voteType.equals(VoteType.MULTIPLE_MAX_TWO) && requestOptionId.size() > 2){
-            throw new IllegalStateException("옵션은 두개까지 선택 가능합니다.");
+            throw new IllegalStateException("옵션은 두 개까지 선택 가능합니다.");
         }
 
         if(voteType.equals(VoteType.MULTIPLE_EXACTLY_THREE) && requestOptionId.size() != 3){

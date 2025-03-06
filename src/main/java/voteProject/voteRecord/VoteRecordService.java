@@ -3,7 +3,6 @@ package voteProject.voteRecord;
 import org.springframework.stereotype.Service;
 import voteProject.vote.Vote;
 import voteProject.vote.VoteRepository;
-import voteProject.vote.VoteType;
 import voteProject.voteOption.VoteOption;
 import voteProject.voteOption.VoteOptionRepository;
 import voteProject.voteUser.VoteUser;
@@ -52,7 +51,7 @@ public class VoteRecordService {
             // 중복 투표 방지
             if (voteRecordRepository.findByVoteUserIdAndVoteIdAndVoteOptionId(
                     request.voteUserId(), request.voteId(), optionId).isPresent()) {
-                throw new IllegalStateException("이미 해당 옵션에 투표했습니다.");
+                throw new IllegalStateException("이미 같은 옵션에 투표했습니다.");
             }
 
             VoteOption voteOption = voteOptionRepository.findById(optionId).orElseThrow(

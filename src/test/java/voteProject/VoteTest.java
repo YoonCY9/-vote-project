@@ -293,7 +293,7 @@ public class VoteTest {
                 .post("/voteRecords")
                 .then().log().all()
                 .statusCode(400)
-                .body("message", equalTo("옵션은 두개까지 선택 가능합니다."));
+                .body("message", equalTo("옵션은 두 개까지 선택 가능합니다."));
     }
 
 
