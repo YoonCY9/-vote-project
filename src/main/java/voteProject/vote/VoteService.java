@@ -130,7 +130,7 @@ public class VoteService {
                 vote.getId(),
                 vote.getTitle(),
                 optionResponseList,
-                vote.getVoteType(),
+//                vote.getVoteType(),
                 vote.getCreateAt(),
                 vote.getCreateAt().plusDays(vote.getDurationDays()));
     }

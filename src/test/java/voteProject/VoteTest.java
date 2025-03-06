@@ -111,7 +111,6 @@ public class VoteTest {
                 .get("/votes/{voteId}")
                 .then().log().all()
                 .statusCode(200);
-
     }
 
     @Test
@@ -136,7 +135,7 @@ public class VoteTest {
         RestAssured
                 .given().log().all()
                 .contentType(ContentType.JSON)
-                .body(new VoteRecordRequest(1L, null, 3L, true))
+                .body(new VoteRecordRequest(1L, null, List.of(3L), true))
                 .when()
                 .post("/voteRecords")
                 .then().log().all()
@@ -176,7 +175,7 @@ public class VoteTest {
         RestAssured
                 .given().log().all()
                 .contentType(ContentType.JSON)
-                .body(new VoteRecordRequest(1L, 1L, 3L, false))
+                .body(new VoteRecordRequest(1L, 1L, List.of(3L), false))
                 .when()
                 .post("/voteRecords")
                 .then().log().all()

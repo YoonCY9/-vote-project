@@ -26,11 +26,6 @@ public class Vote {
     @OneToMany(mappedBy = "vote")
     private List<VoteRecord> voteRecords;
 
-//    //유저
-//    @ManyToOne
-//    private VoteUser voteUser;
-
-    //총 투표수
     @Column(nullable = true)
     private Long totalVote;
 

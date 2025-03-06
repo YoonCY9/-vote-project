@@ -31,9 +31,11 @@ public class VoteOption {
     }
 
     public double votePercentage(Long totalCount) {
+        if (totalCount == null || totalCount == 0) return 0.0;
         BigDecimal countBD = new BigDecimal(this.count);
         BigDecimal totalBD = new BigDecimal(totalCount);
-        BigDecimal percentage = countBD.divide(totalBD, 4, RoundingMode.HALF_UP)  // 소수점 4자리까지 유지
+        BigDecimal percentage = countBD
+                .divide(totalBD, 4, RoundingMode.HALF_UP)  // 소수점 4자리까지 유지
                 .multiply(new BigDecimal(100));
         return percentage.setScale(1, RoundingMode.HALF_UP).doubleValue();
     }
