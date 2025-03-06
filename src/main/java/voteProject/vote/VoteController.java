@@ -38,7 +38,7 @@ public class VoteController {
 
 
     @GetMapping("/votes/{voteId}")
-    public VoteResponse findByVoteId(@PathVariable Long voteId) {
+    public VoteDetailResponse findByVoteId(@PathVariable Long voteId) {
         return voteService.findByVoteId(voteId);
     }
 

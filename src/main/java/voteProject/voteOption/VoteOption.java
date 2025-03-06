@@ -25,7 +25,13 @@ public class VoteOption {
     private List<VoteRecord> voteRecords;
 
     protected VoteOption() {
+
     }
+
+    public double votePercentage(Long totalCount) {
+        return ((double) this.count / totalCount * 100);
+    }
+
 
     public VoteOption(Long id, String content, int count, Vote vote) {
         this.id = id;
@@ -38,6 +44,8 @@ public class VoteOption {
         this.content = content;
         this.vote = vote;
     }
+
+
 
 
 
