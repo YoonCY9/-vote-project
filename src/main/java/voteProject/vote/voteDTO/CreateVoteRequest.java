@@ -9,7 +9,7 @@ public record CreateVoteRequest(
         String title,
         List<String> voteOptions,
         VoteType voteType,
-        LocalDateTime createAt,
+        int durationDays,
         LocalDateTime endTime
 ) {
 }

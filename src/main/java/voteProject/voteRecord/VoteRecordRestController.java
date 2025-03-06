@@ -17,7 +17,7 @@ public class VoteRecordRestController {
     }
 
     @PostMapping("voteRecords")
-    public List<VoteRecordResponse> castVote(@RequestBody VoteRecordRequest request){
+    public VoteRecordResponse castVote(@RequestBody VoteRecordRequest request){
         return voteRecordService.voting(request);
     }
 

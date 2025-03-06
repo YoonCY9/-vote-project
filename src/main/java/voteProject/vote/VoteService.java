@@ -21,41 +21,30 @@ public class VoteService {
     }
 
     //Todo 투표 상세 조회 (id 와 포함하는 글자로만)
-    public List<VoteDetailResponse> searchVoteDetail(String title, Long startDate, Long endDate) {
+    public List<VoteFindResponse> searchVoteDetail(String title, Long startDate, Long endDate) {
 
         if (title != null) {
             return voteRepository.findByTitleContaining(title)
                     .stream()
-                    .map(vote -> new VoteDetailResponse(
-                            vote.getTitle(),
-                            vote.getVoteOption(),
-                            vote.getVoteType(),
-                            vote.getCreateAt(),
-                            vote.getEndDate())).toList();
-        }
-        /*if (id != null) {
-            return voteRepository.findById(id)
-                    .map(vote -> List.of(new VoteDetailResponse(
-                                    vote.getTitle(),
-                                    vote.getVoteOption(),
-                                    vote.getCreateAt(),
-                                    vote.getEndDate()
-                            )
-                    ))
-                    .orElseThrow(() -> new IllegalArgumentException("찾을수 없는 id"));
+                    .map(v -> new VoteFindResponse(
+                            v.getId(),
+                            v.getTitle(),
+                            v.getTotalVote(),
+                            v.getCreateAt(),
+                            v.getCreateAt().plusDays(v.getDurationDays())
+                    )).toList();
         }
 
-         */
         if (startDate != null) {
             return voteRepository.findByCreateAtAfter(LocalDateTime.now()
                             .minusDays(startDate))
                     .stream()
-                    .map(vote -> new VoteDetailResponse(
-                            vote.getTitle(),
-                            vote.getVoteOption(),
-                            vote.getVoteType(),
-                            vote.getCreateAt(),
-                            vote.getEndDate()
+                    .map(v -> new VoteFindResponse(
+                            v.getId(),
+                            v.getTitle(),
+                            v.getTotalVote(),
+                            v.getCreateAt(),
+                            v.getCreateAt().plusDays(v.getDurationDays())
                     )).toList();
         }
         if (endDate != null) {
@@ -63,31 +52,34 @@ public class VoteService {
             return voteRepository.findByEndDate(LocalDateTime.now()
                             .plusDays(endDate))
                     .stream()
-                    .map(vote -> new VoteDetailResponse(
-                            vote.getTitle(),
-                            vote.getVoteOption(),
-                            vote.getVoteType(),
-                            vote.getCreateAt(),
-                            vote.getEndDate()
+                    .map(v -> new VoteFindResponse(
+                            v.getId(),
+                            v.getTitle(),
+                            v.getTotalVote(),
+                            v.getCreateAt(),
+                            v.getCreateAt().plusDays(v.getDurationDays())
                     )).toList();
         }
         return voteRepository.findAll()
                 .stream()
-                .map(vote -> new VoteDetailResponse(
-                        vote.getTitle(),
-                        vote.getVoteOption(),
-                        vote.getVoteType(),
-                        vote.getCreateAt(),
-                        vote.getEndDate()
+                .map(v -> new VoteFindResponse(
+                        v.getId(),
+                        v.getTitle(),
+                        v.getTotalVote(),
+                        v.getCreateAt(),
+                        v.getCreateAt().plusDays(v.getDurationDays())
                 )).toList();
+
+
     }
 
     public VoteResponse create(CreateVoteRequest createVoteRequest) {
         Vote vote = voteRepository.save(new Vote(
                 createVoteRequest.title(),
                 createVoteRequest.voteType(),
-                LocalDateTime.now(),
-                createVoteRequest.endTime()
+                createVoteRequest.endTime(),
+                createVoteRequest.durationDays()
+
         ));
 
         List<VoteOption> voteOptions = voteOptionRepository.saveAll(createVoteRequest.voteOptions()
@@ -107,30 +99,16 @@ public class VoteService {
                 optionContents,
                 vote.getVoteType(),
                 vote.getCreateAt(),
-                vote.getEndDate()
+                vote.getCreateAt().plusDays(vote.getDurationDays())
         );
 
     }
 //    //Todo 상세 조회 포함하는 날짜(?create = value) / 종료 날짜 (? endTime = value)
-      //
 //    public List<VoteDetailResponse> searchVoteByDate(Long startDate, Long endDate) {
 //
 //    }
 
-    // 투표 전체조회
-    public VoteListResponse findAll() {
-        List<Vote> votes = voteRepository.findAll();
 
-        List<VoteFindResponse> voteDTO = votes.stream().map(v -> new VoteFindResponse(
-                v.getId(),
-                v.getTitle(),
-                v.getTotalVote(),
-                v.getCreateAt(),
-                v.getEndDate()
-        )).toList();
-
-        return new VoteListResponse(voteDTO);
-    }
 
     public VoteResponse findByVoteId(Long voteId) {
         Vote vote = voteRepository.findById(voteId).orElseThrow(() ->
@@ -148,6 +126,6 @@ public class VoteService {
                 optionResponseList,
                 vote.getVoteType(),
                 vote.getCreateAt(),
-                vote.getEndDate());
+                vote.getCreateAt().plusDays(vote.getDurationDays()));
     }
 }
