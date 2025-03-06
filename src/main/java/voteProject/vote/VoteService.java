@@ -108,17 +108,23 @@ public class VoteService {
 
 
 
-    public VoteResponse findByVoteId(Long voteId) {
+    public VoteDetailResponse findByVoteId(Long voteId) {
         Vote vote = voteRepository.findById(voteId).orElseThrow(() ->
                 new NoSuchElementException("존재하지 않는 voteId" + voteId));
 
+        Long totalVote = vote.getTotalVote();
+
         List<VoteOption> voteOptions = voteOptionRepository.findByVoteId(vote.getId());
 
-        List<VoteOptionResponse> optionResponseList = voteOptions.stream().map(v -> new VoteOptionResponse(
+        List<VoteOptionDetailResponse> optionResponseList = voteOptions.stream()
+                .map(v -> new VoteOptionDetailResponse(
                 v.getId(),
-                v.getContent())).toList();
+                v.getContent(),
+                v.getCount(),
+                v.votePercentage(totalVote)
+                        )).toList();
 
-        return new VoteResponse(
+        return new VoteDetailResponse(
                 vote.getId(),
                 vote.getTitle(),
                 optionResponseList,
