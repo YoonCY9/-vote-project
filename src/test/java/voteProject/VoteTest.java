@@ -112,7 +112,6 @@ public class VoteTest {
                 .get("/votes/{voteId}")
                 .then().log().all()
                 .statusCode(200);
-
     }
 
     @Test
