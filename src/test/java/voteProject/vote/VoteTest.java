@@ -48,7 +48,7 @@ public class VoteTest {
     }
 
     @Test
-    void name() {
+    void 투표목록조회() {
         RestAssured
            .given().log().all()
                 .contentType(ContentType.JSON)
@@ -70,8 +70,37 @@ public class VoteTest {
                 .contentType(ContentType.JSON)
                 .queryParam("title","저메")
                 .when()
-                .get("/api/votes")
+                .get("/votes")
                 .then().log().all()
                 .statusCode(200);
+    }
+
+    @Test
+    void 투표상세조회() {
+        VoteResponse 투표1 = RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateVoteRequest(
+                        "저메추",
+                        List.of("중국집", "한식", "일식", "양식"),
+                        LocalDateTime.now(),
+                        1
+                ))
+                .when()
+                .post("/votes")
+                .then().log().all()
+                .statusCode(200)
+                .extract()
+                .as(VoteResponse.class);
+
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .pathParam("voteId",투표1.voteId())
+                .when()
+                .get("/votes/{voteId}")
+                .then().log().all()
+                .statusCode(200);
+
     }
 }
