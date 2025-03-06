@@ -31,15 +31,20 @@ public class VoteController {
     }
 
 
-    @PostMapping("/votes")
-    public VoteResponse create(@RequestBody CreateVoteRequest createVoteRequest){
-        return voteService.create(createVoteRequest);
+    @PostMapping("/votes/{userid}")
+    public VoteResponse create(@RequestBody CreateVoteRequest createVoteRequest, @PathVariable Long userid){
+        return voteService.create(createVoteRequest, userid);
     }
 
 
     @GetMapping("/votes/{voteId}")
     public VoteDetailResponse findByVoteId(@PathVariable Long voteId) {
         return voteService.findByVoteId(voteId);
+    }
+
+    @DeleteMapping("/votes/{voteId}")
+    public void delete(@PathVariable Long voteId) {
+        voteService.delete(voteId);
     }
 
 
