@@ -116,12 +116,12 @@ public class VoteTest {
 
     @Test
     void 투표생성및익명투표테스트() {
-        given().log().all()
+        VoteResponse voteResponse = given().log().all()
                 .contentType(ContentType.JSON)
                 .body(new CreateVoteRequest(
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
-                        VoteType.SINGLE,
+                        VoteType.MULTIPLE,
                         1,
                         LocalDateTime.now()
                 ))
@@ -136,11 +136,12 @@ public class VoteTest {
         RestAssured
                 .given().log().all()
                 .contentType(ContentType.JSON)
-                .body(new VoteRecordRequest(1L, null, 3L, true))
+                .body(new VoteRecordRequest(voteResponse.voteId(), null, List.of(1L,3L), true))
                 .when()
                 .post("/voteRecords")
                 .then().log().all()
-                .statusCode(HttpStatus.OK.value());
+                .statusCode(HttpStatus.OK.value())
+                .extract();
     }
 
     @Test
@@ -156,7 +157,7 @@ public class VoteTest {
                 .statusCode(HttpStatus.OK.value());
 
 
-        given().log().all()
+        VoteResponse voteResponse = given().log().all()
                 .contentType(ContentType.JSON)
                 .body(new CreateVoteRequest(
                         "저메추",
@@ -176,7 +177,7 @@ public class VoteTest {
         RestAssured
                 .given().log().all()
                 .contentType(ContentType.JSON)
-                .body(new VoteRecordRequest(1L, 1L, 3L, false))
+                .body(new VoteRecordRequest(voteResponse.voteId(), 1L, List.of(1L), false))
                 .when()
                 .post("/voteRecords")
                 .then().log().all()

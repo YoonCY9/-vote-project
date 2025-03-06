@@ -4,8 +4,8 @@ import voteProject.vote.voteDTO.VoteOptionResponse;
 
 import java.util.List;
 
-public record VoteRecordResponse(Long userId,
-                                 Long voteId,
+public record VoteRecordResponse(Long voteId,
+                                 Long userId,
                                  Long voteOptionId) {
 
     // 사용자 ID가 null일 수 있음을 처리하는 방법
