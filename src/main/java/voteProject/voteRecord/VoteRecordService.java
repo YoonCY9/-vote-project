@@ -43,15 +43,13 @@ public class VoteRecordService {
                 () -> new IllegalArgumentException("개설되지 않은 투표입니다.")
         );
 
-        // 단일 선택인데 여러 옵션이 들어왔을 경우 예외 처리
-        if (vote.getVoteType().equals(VoteType.SINGLE) && request.voteOptionIdList().size() > 1) {
-            throw new IllegalStateException("단일 선택 투표에서는 하나의 옵션만 선택 가능합니다.");
-        }
+        //voteType에 맞는 옵션 선택인지 검증
+        vote.validateOptionCount(request.voteOptionIdList());
 
         List<VoteRecordResponse> responses = new ArrayList<>();
 
         for (Long optionId : request.voteOptionIdList()) {
-            // 중복 투표 방지 (옵션별 검증)
+            // 중복 투표 방지
             if (voteRecordRepository.findByVoteUserIdAndVoteIdAndVoteOptionId(
                     request.voteUserId(), request.voteId(), optionId).isPresent()) {
                 throw new IllegalStateException("이미 해당 옵션에 투표했습니다.");
