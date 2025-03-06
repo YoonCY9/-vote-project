@@ -24,10 +24,8 @@ public class VoteController {
     //목록 조회
     @GetMapping("/votes")
     public List<VoteFindResponse> getVoteDetail(
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) Long startDate,
-            @RequestParam(required = false) Long endDate) {
-        return voteService.searchVoteDetail(title,startDate,endDate);
+            @RequestParam(required = false) String title) {
+        return voteService.searchVoteDetail(title);
     }
 
 

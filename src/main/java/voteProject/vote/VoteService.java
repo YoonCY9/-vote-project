@@ -18,63 +18,28 @@ public class VoteService {
     private final VoteRepository voteRepository;
     private final VoteOptionRepository voteOptionRepository;
     private final VoteUserRepository voteUserRepository;
+    private final VoteQRepository voteQRepository;
 
-    public VoteService(VoteRepository voteRepository, VoteOptionRepository voteOptionRepository, VoteUserRepository voteUserRepository) {
+    public VoteService(VoteRepository voteRepository, VoteOptionRepository voteOptionRepository, VoteUserRepository voteUserRepository, VoteQRepository voteQRepository) {
         this.voteRepository = voteRepository;
         this.voteOptionRepository = voteOptionRepository;
         this.voteUserRepository = voteUserRepository;
+        this.voteQRepository = voteQRepository;
     }
 
     //Todo 투표 상세 조회 (id 와 포함하는 글자로만)
-    public List<VoteFindResponse> searchVoteDetail(String title, Long startDate, Long endDate) {
+    public List<VoteFindResponse> searchVoteDetail(String title) {
 
-        if (title != null) {
-            return voteRepository.findByTitleContaining(title)
-                    .stream()
-                    .map(v -> new VoteFindResponse(
-                            v.getId(),
-                            v.getTitle(),
-                            v.getTotalVote(),
-                            v.getCreateAt(),
-                            v.getCreateAt().plusDays(v.getDurationDays())
-                    )).toList();
-        }
+        List<Vote> votes = voteQRepository.findAll(title);
 
-        if (startDate != null) {
-            return voteRepository.findByCreateAtAfter(LocalDateTime.now()
-                            .minusDays(startDate))
-                    .stream()
-                    .map(v -> new VoteFindResponse(
-                            v.getId(),
-                            v.getTitle(),
-                            v.getTotalVote(),
-                            v.getCreateAt(),
-                            v.getCreateAt().plusDays(v.getDurationDays())
-                    )).toList();
-        }
-        if (endDate != null) {
-
-            return voteRepository.findByEndDate(LocalDateTime.now()
-                            .plusDays(endDate))
-                    .stream()
-                    .map(v -> new VoteFindResponse(
-                            v.getId(),
-                            v.getTitle(),
-                            v.getTotalVote(),
-                            v.getCreateAt(),
-                            v.getCreateAt().plusDays(v.getDurationDays())
-                    )).toList();
-        }
-        return voteRepository.findAll()
-                .stream()
-                .map(v -> new VoteFindResponse(
+        return votes.stream().map(
+                v -> new VoteFindResponse(
                         v.getId(),
                         v.getTitle(),
                         v.getTotalVote(),
                         v.getCreateAt(),
                         v.getCreateAt().plusDays(v.getDurationDays())
-                )).toList();
-
+        )).toList();
 
     }
 
@@ -117,10 +82,11 @@ public class VoteService {
 //    }
 
 
-
     public VoteDetailResponse findByVoteId(Long voteId) {
         Vote vote = voteRepository.findById(voteId).orElseThrow(() ->
                 new NoSuchElementException("존재하지 않는 voteId" + voteId));
+
+        vote.isDeleted();
 
         Long totalVote = vote.getTotalVote();
 
@@ -128,11 +94,11 @@ public class VoteService {
 
         List<VoteOptionDetailResponse> optionResponseList = voteOptions.stream()
                 .map(v -> new VoteOptionDetailResponse(
-                v.getId(),
-                v.getContent(),
-                v.getCount(),
-                v.votePercentage(totalVote)
-                        )).toList();
+                        v.getId(),
+                        v.getContent(),
+                        v.getCount(),
+                        v.votePercentage(totalVote)
+                )).toList();
 
         return new VoteDetailResponse(
                 vote.getId(),

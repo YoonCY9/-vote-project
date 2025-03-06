@@ -69,6 +69,14 @@ public class Vote {
         this.durationDays = durationDays;
     }
 
+    // 삭제됐는지?????
+    public void isDeleted() {
+        if (isDeleted) {
+            throw new IllegalArgumentException("삭제된 투표입니다.");
+        }
+
+    }
+
     public Long getId() {
         return Id;
     }
