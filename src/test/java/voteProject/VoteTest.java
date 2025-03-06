@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import voteProject.vote.VoteType;
 import voteProject.vote.voteDTO.CreateVoteRequest;
 import voteProject.vote.voteDTO.VoteResponse;
 import voteProject.voteRecord.VoteRecordRequest;
@@ -41,8 +42,10 @@ public class VoteTest {
                 .body(new CreateVoteRequest(
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
-                        LocalDateTime.now(),
-                        1
+                        VoteType.SINGLE,
+                        1,
+                        LocalDateTime.now()
+
                 ))
                 .when()
                 .post("/votes")
@@ -59,8 +62,9 @@ public class VoteTest {
                 .body(new CreateVoteRequest(
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
-                        LocalDateTime.now(),
-                        1
+                        VoteType.SINGLE,
+                        1,
+                        LocalDateTime.now()
                 ))
                 .when()
                 .post("/votes")
@@ -85,8 +89,9 @@ public class VoteTest {
                 .body(new CreateVoteRequest(
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
-                        LocalDateTime.now(),
-                        1
+                        VoteType.SINGLE,
+                        1,
+                        LocalDateTime.now()
                 ))
                 .when()
                 .post("/votes")
@@ -124,8 +129,9 @@ public class VoteTest {
                 .body(new CreateVoteRequest(
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
-                        LocalDateTime.now(),
-                        1
+                        VoteType.SINGLE,
+                        1,
+                        LocalDateTime.now()
                 ))
                 .when()
                 .post("/votes")

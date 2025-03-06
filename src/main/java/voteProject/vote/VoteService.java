@@ -76,6 +76,7 @@ public class VoteService {
     public VoteResponse create(CreateVoteRequest createVoteRequest) {
         Vote vote = voteRepository.save(new Vote(
                 createVoteRequest.title(),
+                createVoteRequest.voteType(),
                 createVoteRequest.endTime(),
                 createVoteRequest.durationDays()
 
@@ -96,6 +97,7 @@ public class VoteService {
                 vote.getId(),
                 vote.getTitle(),
                 optionContents,
+                vote.getVoteType(),
                 vote.getCreateAt(),
                 vote.getCreateAt().plusDays(vote.getDurationDays())
         );
@@ -122,6 +124,7 @@ public class VoteService {
                 vote.getId(),
                 vote.getTitle(),
                 optionResponseList,
+                vote.getVoteType(),
                 vote.getCreateAt(),
                 vote.getCreateAt().plusDays(vote.getDurationDays()));
     }
