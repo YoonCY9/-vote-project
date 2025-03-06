@@ -30,7 +30,7 @@ public class VoteService {
                             vote.getTitle(),
                             vote.getVoteOption(),
                             vote.getCreateAt(),
-                            vote.getEndDate())).toList();
+                            vote.getCreateAt().plusDays(vote.getDurationDays()))).toList();
         }
         /*if (id != null) {
             return voteRepository.findById(id)
@@ -53,7 +53,7 @@ public class VoteService {
                             vote.getTitle(),
                             vote.getVoteOption(),
                             vote.getCreateAt(),
-                            vote.getEndDate()
+                            vote.getCreateAt().plusDays(vote.getDurationDays())
                     )).toList();
         }
         if (endDate != null) {
@@ -65,7 +65,7 @@ public class VoteService {
                             vote.getTitle(),
                             vote.getVoteOption(),
                             vote.getCreateAt(),
-                            vote.getEndDate()
+                            vote.getCreateAt().plusDays(vote.getDurationDays())
                     )).toList();
         }
         return voteRepository.findAll()
@@ -74,14 +74,16 @@ public class VoteService {
                         vote.getTitle(),
                         vote.getVoteOption(),
                         vote.getCreateAt(),
-                        vote.getEndDate()
+                        vote.getCreateAt().plusDays(vote.getDurationDays())
                 )).toList();
     }
 
     public VoteResponse create(CreateVoteRequest createVoteRequest) {
         Vote vote = voteRepository.save(new Vote(
                 createVoteRequest.title(),
-                createVoteRequest.endTime()
+                createVoteRequest.endTime(),
+                createVoteRequest.durationDays()
+
         ));
 
         List<VoteOption> voteOptions = voteOptionRepository.saveAll(createVoteRequest.voteOptions()
@@ -100,7 +102,7 @@ public class VoteService {
                 vote.getTitle(),
                 optionContents,
                 vote.getCreateAt(),
-                vote.getEndDate()
+                vote.getCreateAt().plusDays(vote.getDurationDays())
         );
 
     }
@@ -118,7 +120,7 @@ public class VoteService {
                 v.getTitle(),
                 v.getTotalVote(),
                 v.getCreateAt(),
-                v.getEndDate()
+                v.getCreateAt().plusDays(v.getDurationDays())
         )).toList();
 
         return new VoteListResponse(voteDTO);
@@ -139,6 +141,6 @@ public class VoteService {
                 vote.getTitle(),
                 optionResponseList,
                 vote.getCreateAt(),
-                vote.getEndDate());
+                vote.getCreateAt().plusDays(vote.getDurationDays()));
     }
 }

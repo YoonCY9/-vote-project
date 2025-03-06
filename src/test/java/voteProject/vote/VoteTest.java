@@ -37,7 +37,7 @@ public class VoteTest {
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         LocalDateTime.now(),
-                        LocalDateTime.now().plusDays(1)
+                        1
                 ))
                 .when()
                 .post("/votes")
@@ -56,7 +56,7 @@ public class VoteTest {
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         LocalDateTime.now(),
-                        LocalDateTime.now().plusDays(1)
+                        1
                 ))
                 .when()
                 .post("/votes")

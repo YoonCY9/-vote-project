@@ -7,6 +7,7 @@ import java.util.List;
 public record CreateVoteRequest(
         String title,
         List<String> voteOptions,
-        LocalDateTime endTime
+        LocalDateTime endTime,
+        int durationDays
 ) {
 }
