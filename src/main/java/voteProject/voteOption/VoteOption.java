@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import voteProject.vote.Vote;
 import voteProject.voteRecord.VoteRecord;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Entity
@@ -29,7 +31,8 @@ public class VoteOption {
     }
 
     public double votePercentage(Long totalCount) {
-        return ((double) this.count / totalCount * 100);
+        BigDecimal percentage = new BigDecimal(this.count / totalCount * 100);
+        return percentage.setScale(1, RoundingMode.HALF_UP).doubleValue();
     }
 
 
