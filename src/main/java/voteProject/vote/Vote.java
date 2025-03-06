@@ -43,6 +43,9 @@ public class Vote {
     @Column(nullable = false)
     private boolean isClose = false;
 
+    @Enumerated(EnumType.STRING)
+    private VoteType voteType = VoteType.SINGLE;
+
     //종료 일시
     @Column(nullable = false)
     private LocalDateTime endDate;
@@ -50,8 +53,9 @@ public class Vote {
     public Vote() {
     }
 
-    public Vote(String title, LocalDateTime createAt, LocalDateTime endDate) {
+    public Vote(String title, VoteType voteType, LocalDateTime createAt, LocalDateTime endDate) {
         this.title = title;
+        this.voteType = voteType;
         this.createAt = createAt;
         this.endDate = endDate;
     }
@@ -102,4 +106,18 @@ public class Vote {
     public LocalDateTime getEndDate() {
         return endDate;
     }
+
+    public VoteType getVoteType() {
+        return voteType;
+    }
+
+    public void setVoteType(VoteType voteType) {
+        this.voteType = voteType;
+    }
+
+    //    public void setVoteType(){
+//        if(this.voteType == VoteType.SINGLE){
+//            voteType = VoteType.MULTIPLE;
+//        }else voteType = VoteType.SINGLE;
+//    }
 }

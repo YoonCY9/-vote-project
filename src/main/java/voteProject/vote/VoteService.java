@@ -29,6 +29,7 @@ public class VoteService {
                     .map(vote -> new VoteDetailResponse(
                             vote.getTitle(),
                             vote.getVoteOption(),
+                            vote.getVoteType(),
                             vote.getCreateAt(),
                             vote.getEndDate())).toList();
         }
@@ -52,6 +53,7 @@ public class VoteService {
                     .map(vote -> new VoteDetailResponse(
                             vote.getTitle(),
                             vote.getVoteOption(),
+                            vote.getVoteType(),
                             vote.getCreateAt(),
                             vote.getEndDate()
                     )).toList();
@@ -64,6 +66,7 @@ public class VoteService {
                     .map(vote -> new VoteDetailResponse(
                             vote.getTitle(),
                             vote.getVoteOption(),
+                            vote.getVoteType(),
                             vote.getCreateAt(),
                             vote.getEndDate()
                     )).toList();
@@ -73,6 +76,7 @@ public class VoteService {
                 .map(vote -> new VoteDetailResponse(
                         vote.getTitle(),
                         vote.getVoteOption(),
+                        vote.getVoteType(),
                         vote.getCreateAt(),
                         vote.getEndDate()
                 )).toList();
@@ -81,6 +85,7 @@ public class VoteService {
     public VoteResponse create(CreateVoteRequest createVoteRequest) {
         Vote vote = voteRepository.save(new Vote(
                 createVoteRequest.title(),
+                createVoteRequest.voteType(),
                 LocalDateTime.now(),
                 createVoteRequest.endTime()
         ));
@@ -100,12 +105,14 @@ public class VoteService {
                 vote.getId(),
                 vote.getTitle(),
                 optionContents,
+                vote.getVoteType(),
                 vote.getCreateAt(),
                 vote.getEndDate()
         );
 
     }
 //    //Todo 상세 조회 포함하는 날짜(?create = value) / 종료 날짜 (? endTime = value)
+      //
 //    public List<VoteDetailResponse> searchVoteByDate(Long startDate, Long endDate) {
 //
 //    }
@@ -119,7 +126,7 @@ public class VoteService {
                 v.getTitle(),
                 v.getTotalVote(),
                 v.getCreateAt(),
-                v.getEndTime()
+                v.getEndDate()
         )).toList();
 
         return new VoteListResponse(voteDTO);
@@ -139,7 +146,8 @@ public class VoteService {
                 vote.getId(),
                 vote.getTitle(),
                 optionResponseList,
+                vote.getVoteType(),
                 vote.getCreateAt(),
-                vote.getEndTime());
+                vote.getEndDate());
     }
 }
