@@ -1,6 +1,9 @@
 package voteProject.voteRecord;
 
-public record VoteRecordRequest(Long userId,
-                                Long voteId,
-                                Long voteOption) {
+public record VoteRecordRequest(
+        Long voteId,
+        Long voteUserId,
+        Long voteOptionId,
+        boolean isAnonymous
+) {
 }

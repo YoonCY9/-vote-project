@@ -1,4 +1,4 @@
-package voteProject.vote;
+package voteProject;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -7,12 +7,18 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import voteProject.DatabaseCleanup;
+import org.springframework.http.HttpStatus;
 import voteProject.vote.voteDTO.CreateVoteRequest;
 import voteProject.vote.voteDTO.VoteResponse;
+import voteProject.voteRecord.VoteRecordRequest;
+import voteProject.voteRecord.VoteRecordResponse;
+import voteProject.voteUser.CreateVoteUserRequest;
+import voteProject.voteUser.VoteUserRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static io.restassured.RestAssured.given;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class VoteTest {
@@ -30,8 +36,7 @@ public class VoteTest {
 
     @Test
     void 투표생성() {
-        VoteResponse 투표1 = RestAssured
-                .given().log().all()
+        VoteResponse 투표1 = given().log().all()
                 .contentType(ContentType.JSON)
                 .body(new CreateVoteRequest(
                         "저메추",
@@ -48,9 +53,8 @@ public class VoteTest {
     }
 
     @Test
-    void 투표목록조회() {
-        RestAssured
-           .given().log().all()
+    void name() {
+        given().log().all()
                 .contentType(ContentType.JSON)
                 .body(new CreateVoteRequest(
                         "저메추",
@@ -65,20 +69,18 @@ public class VoteTest {
                 .extract()
                 .as(VoteResponse.class);
 
-        RestAssured
-                .given().log().all()
+        given().log().all()
                 .contentType(ContentType.JSON)
-                .queryParam("title","저메")
+                .queryParam("title", "저메")
                 .when()
-                .get("/votes")
+                .get("/api/votes")
                 .then().log().all()
                 .statusCode(200);
     }
 
     @Test
-    void 투표상세조회() {
-        VoteResponse 투표1 = RestAssured
-                .given().log().all()
+    void 투표생성및익명투표테스트() {
+        given().log().all()
                 .contentType(ContentType.JSON)
                 .body(new CreateVoteRequest(
                         "저메추",
@@ -93,14 +95,56 @@ public class VoteTest {
                 .extract()
                 .as(VoteResponse.class);
 
+
         RestAssured
                 .given().log().all()
                 .contentType(ContentType.JSON)
-                .pathParam("voteId",투표1.voteId())
+                .body(new VoteRecordRequest(1L, null, 3L, true))
                 .when()
-                .get("/votes/{voteId}")
+                .post("/voteRecords")
                 .then().log().all()
-                .statusCode(200);
-
+                .statusCode(HttpStatus.OK.value());
     }
+
+    @Test
+    void 유저생성투표생성및비익명투표테스트() {
+
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateVoteUserRequest("닉네임", "486"))
+                .when()
+                .post("/voteusers")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+
+        given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateVoteRequest(
+                        "저메추",
+                        List.of("중국집", "한식", "일식", "양식"),
+                        LocalDateTime.now(),
+                        1
+                ))
+                .when()
+                .post("/votes")
+                .then().log().all()
+                .statusCode(200)
+                .extract()
+                .as(VoteResponse.class);
+
+
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new VoteRecordRequest(1L, 1L, 3L, false))
+                .when()
+                .post("/voteRecords")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+    }
+
+
+
 }
