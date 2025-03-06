@@ -21,22 +21,14 @@ public class VoteController {
         this.voteRepository = voteRepository;
     }
 
-    //조회
-    @GetMapping("/api/votes")
-    public List<VoteDetailResponse> getVoteDetail(
+    //목록 조회
+    @GetMapping("/votes")
+    public List<VoteFindResponse> getVoteDetail(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) Long startDate,
             @RequestParam(required = false) Long endDate) {
         return voteService.searchVoteDetail(title,startDate,endDate);
     }
-//
-//    @GetMapping("/api/votes/dates")
-//    public List<VoteDetailResponse> getVoteDetail(
-//            @RequestParam (required = false) Long startDate,
-//            @RequestParam (required = false) Long endDate) {
-//        return voteService.searchVoteByDate(startDate, endDate);
-//    }
-
 
 
     @PostMapping("/votes")
@@ -44,10 +36,6 @@ public class VoteController {
         return voteService.create(createVoteRequest);
     }
 
-    @GetMapping("/votes")
-    public VoteListResponse findAll() {
-        return voteService.findAll();
-    }
 
     @GetMapping("/votes/{voteId}")
     public VoteResponse findByVoteId(@PathVariable Long voteId) {
