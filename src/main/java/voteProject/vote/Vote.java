@@ -45,6 +45,9 @@ public class Vote {
     @Column(nullable = false)
     private boolean isClose = false;
 
+    @Enumerated(EnumType.STRING)
+    private VoteType voteType = VoteType.SINGLE;
+
     //종료 일시
     @Column(nullable = false)
     private LocalDateTime endDate;
@@ -52,30 +55,33 @@ public class Vote {
     @Column(nullable = false)
     private int durationDays;
 
-    //익명 투표 여부
-    @Column(nullable = false)
-    private boolean isAnonymous = false;
-
     public Vote() {
     }
 
-    public Vote(String title, LocalDateTime endDate, int durationDays) {
+    public Vote(String title, VoteType voteType, LocalDateTime endDate, int durationDays) {
         this.title = title;
+        this.voteType = voteType;
         this.endDate = endDate;
         this.durationDays = durationDays;
     }
 
-
-    public Vote(String title, List<VoteRecord> voteRecords, Long totalVote, List<VoteOption> voteOption, LocalDateTime createAt, boolean isClose, LocalDateTime endDate, int durationDays, boolean isAnonymous) {
+    public Vote(Long id,
+                String title,
+                List<VoteRecord> voteRecords,
+                List<VoteOption> voteOption,
+                Long totalVote,
+                LocalDateTime createAt,
+                boolean isClose,
+                LocalDateTime endDate) {
+        Id = id;
         this.title = title;
         this.voteRecords = voteRecords;
-        this.totalVote = totalVote;
         this.voteOption = voteOption;
+        this.totalVote = totalVote;
         this.createAt = createAt;
         this.isClose = isClose;
         this.endDate = endDate;
-        this.durationDays = durationDays;
-        this.isAnonymous = isAnonymous;
+
     }
 
     public Long getId() {
@@ -110,7 +116,12 @@ public class Vote {
         return durationDays;
     }
 
-    public boolean isAnonymous() {
-        return isAnonymous;
+    public VoteType getVoteType() {
+        return voteType;
     }
+
+    public void setVoteType(VoteType voteType) {
+        this.voteType = voteType;
+    }
+
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import voteProject.vote.VoteType;
 import voteProject.vote.voteDTO.CreateVoteRequest;
 import voteProject.vote.voteDTO.VoteResponse;
 import voteProject.voteRecord.VoteRecordRequest;
@@ -41,8 +42,10 @@ public class VoteTest {
                 .body(new CreateVoteRequest(
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
-                        LocalDateTime.now(),
-                        1
+                        VoteType.SINGLE,
+                        1,
+                        LocalDateTime.now()
+
                 ))
                 .when()
                 .post("/votes")
@@ -53,14 +56,16 @@ public class VoteTest {
     }
 
     @Test
-    void name() {
-        given().log().all()
+    void 투표목록조회() {
+        RestAssured
+                .given().log().all()
                 .contentType(ContentType.JSON)
                 .body(new CreateVoteRequest(
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
-                        LocalDateTime.now(),
-                        1
+                        VoteType.SINGLE,
+                        1,
+                        LocalDateTime.now()
                 ))
                 .when()
                 .post("/votes")
@@ -69,13 +74,44 @@ public class VoteTest {
                 .extract()
                 .as(VoteResponse.class);
 
-        given().log().all()
+        RestAssured
+                .given().log().all()
                 .contentType(ContentType.JSON)
-                .queryParam("title", "저메")
+                .queryParam("title","저메")
                 .when()
-                .get("/api/votes")
+                .get("/votes")
                 .then().log().all()
                 .statusCode(200);
+    }
+
+    @Test
+    void 투표상세조회() {
+        VoteResponse 투표1 = RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateVoteRequest(
+                        "저메추",
+                        List.of("중국집", "한식", "일식", "양식"),
+                        VoteType.SINGLE,
+                        1,
+                        LocalDateTime.now()
+                ))
+                .when()
+                .post("/votes")
+                .then().log().all()
+                .statusCode(200)
+                .extract()
+                .as(VoteResponse.class);
+
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .pathParam("voteId",투표1.voteId())
+                .when()
+                .get("/votes/{voteId}")
+                .then().log().all()
+                .statusCode(200);
+
     }
 
     @Test
@@ -85,8 +121,9 @@ public class VoteTest {
                 .body(new CreateVoteRequest(
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
-                        LocalDateTime.now(),
-                        1
+                        VoteType.SINGLE,
+                        1,
+                        LocalDateTime.now()
                 ))
                 .when()
                 .post("/votes")
@@ -124,8 +161,9 @@ public class VoteTest {
                 .body(new CreateVoteRequest(
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
-                        LocalDateTime.now(),
-                        1
+                        VoteType.SINGLE,
+                        1,
+                        LocalDateTime.now()
                 ))
                 .when()
                 .post("/votes")
