@@ -36,6 +36,7 @@ public class VoteTest {
                 .body(new CreateVoteRequest(
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
+                        VoteType.SINGLE,
                         LocalDateTime.now(),
                         LocalDateTime.now().plusDays(1)
                 ))
@@ -55,6 +56,7 @@ public class VoteTest {
                 .body(new CreateVoteRequest(
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
+                        VoteType.SINGLE,
                         LocalDateTime.now(),
                         LocalDateTime.now().plusDays(1)
                 ))

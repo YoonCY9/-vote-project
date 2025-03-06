@@ -115,9 +115,4 @@ public class Vote {
         this.voteType = voteType;
     }
 
-    //    public void setVoteType(){
-//        if(this.voteType == VoteType.SINGLE){
-//            voteType = VoteType.MULTIPLE;
-//        }else voteType = VoteType.SINGLE;
-//    }
 }
