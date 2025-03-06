@@ -49,12 +49,16 @@ public class Vote {
     @Column(nullable = false)
     private LocalDateTime endDate;
 
+    @Column(nullable = false)
+    private int durationDays;
+
     public Vote() {
     }
 
-    public Vote(String title, LocalDateTime endDate) {
+    public Vote(String title, LocalDateTime endDate, int durationDays) {
         this.title = title;
         this.endDate = endDate;
+        this.durationDays = durationDays;
     }
 
     public Vote(Long id,
@@ -102,5 +106,9 @@ public class Vote {
 
     public LocalDateTime getEndDate() {
         return endDate;
+    }
+
+    public int getDurationDays() {
+        return durationDays;
     }
 }
