@@ -1,9 +1,11 @@
 package voteProject.voteRecord;
 
+import java.util.List;
+
 public record VoteRecordRequest(
         Long voteId,
         Long voteUserId,
-        Long voteOptionId,
+        List<Long> voteOptionIdList,
         boolean isAnonymous
 ) {
 }
