@@ -6,9 +6,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import voteProject.voteOption.VoteOption;
 import voteProject.voteRecord.VoteRecord;
 import voteProject.voteUser.VoteUser;
-
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @EntityListeners(AuditingEntityListener.class)
@@ -27,13 +25,12 @@ public class Vote {
     @OneToMany(mappedBy = "vote")
     private List<VoteRecord> voteRecords;
 
-//    //유저
+    //    //유저
     @ManyToOne
     private VoteUser voteUser;
 
     //총 투표수
-    @Column(nullable = true)
-    private Long totalVote = 0L;
+    private Long totalVote;
 
     @Column(nullable = false)
     @OneToMany(mappedBy = "vote")
@@ -68,6 +65,7 @@ public class Vote {
         this.voteType = voteType;
         this.endDate = endDate;
         this.durationDays = durationDays;
+        this.totalVote = 0L;
     }
 
     // 삭제됐는지?????
@@ -115,30 +113,29 @@ public class Vote {
     }
 
 
-
     public void deleteVote() {
         this.isDeleted = true;
     }
 
-    public void validateOptionCount(List<Long> requestOptionId){
+    public void validateOptionCount(List<Long> requestOptionId) {
 
-        if(voteType.equals(VoteType.SINGLE) && requestOptionId.size() > 1){
+        if (voteType.equals(VoteType.SINGLE) && requestOptionId.size() > 1) {
             throw new IllegalStateException("복수응답을 허용하지 않는 투표입니다. 하나의 옵션만 선택해 주세요");
         }
 
-        if(voteType.equals(VoteType.MULTIPLE_EXACTLY_TWO) && requestOptionId.size() != 2){
+        if (voteType.equals(VoteType.MULTIPLE_EXACTLY_TWO) && requestOptionId.size() != 2) {
             throw new IllegalStateException("옵션을 두 개 선택 해 주세요.");
         }
 
-        if(voteType.equals(VoteType.MULTIPLE_MAX_TWO) && requestOptionId.size() > 2){
+        if (voteType.equals(VoteType.MULTIPLE_MAX_TWO) && requestOptionId.size() > 2) {
             throw new IllegalStateException("옵션은 두 개까지 선택 가능합니다.");
         }
 
-        if(voteType.equals(VoteType.MULTIPLE_EXACTLY_THREE) && requestOptionId.size() != 3){
+        if (voteType.equals(VoteType.MULTIPLE_EXACTLY_THREE) && requestOptionId.size() != 3) {
             throw new IllegalStateException("옵션을 세 개 선택 해 주세요.");
         }
 
-        if(voteType.equals(VoteType.MULTIPLE_MAX_THREE) && requestOptionId.size() > 3){
+        if (voteType.equals(VoteType.MULTIPLE_MAX_THREE) && requestOptionId.size() > 3) {
             throw new IllegalStateException("옵션은 세 개까지 선택 가능합니다.");
         }
     }
