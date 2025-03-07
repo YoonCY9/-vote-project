@@ -53,10 +53,6 @@ public class VoteOption {
         this.vote = vote;
     }
 
-
-
-
-
     public Long getId() {
         return id;
     }

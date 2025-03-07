@@ -47,7 +47,6 @@ public class Vote {
     private VoteType voteType = VoteType.SINGLE;
 
     //종료 일시
-    @Column(nullable = false)
     private LocalDateTime endDate;
 
     @Column(nullable = false)
@@ -111,6 +110,9 @@ public class Vote {
         return voteType;
     }
 
+    public VoteUser getVoteUser() {
+        return voteUser;
+    }
 
     public void deleteVote() {
         this.isDeleted = true;
