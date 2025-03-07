@@ -6,6 +6,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import voteProject.voteOption.VoteOption;
 import voteProject.voteRecord.VoteRecord;
 import voteProject.voteUser.VoteUser;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class Vote {
     private VoteType voteType = VoteType.SINGLE;
 
     //종료 일시
-    @Column(nullable = false)
+    @Column
     private LocalDateTime endDate;
 
     @Column(nullable = false)
@@ -56,16 +57,26 @@ public class Vote {
     @Column(nullable = false)
     private boolean isDeleted = false;
 
+    // 익명 여부
+    @Column(nullable = false)
+    private boolean isAnonymous;
+
+
     public Vote() {
     }
 
-    public Vote(VoteUser voteUser, String title, VoteType voteType, LocalDateTime endDate, int durationDays) {
+    public Vote(VoteUser voteUser,
+                String title,
+                VoteType voteType,
+                int durationDays,
+                boolean isAnonymous) {
         this.voteUser = voteUser;
         this.title = title;
         this.voteType = voteType;
-        this.endDate = endDate;
         this.durationDays = durationDays;
         this.totalVote = 0L;
+        this.endDate = LocalDateTime.now().plusDays(this.durationDays);
+        this.isAnonymous = isAnonymous;
     }
 
     // 삭제됐는지?????
@@ -112,6 +123,13 @@ public class Vote {
         return voteType;
     }
 
+    public boolean isAnonymous() {
+        return isAnonymous;
+    }
+
+    public void setAnonymous(boolean anonymous) {
+        isAnonymous = anonymous;
+    }
 
     public void deleteVote() {
         this.isDeleted = true;
@@ -138,5 +156,9 @@ public class Vote {
         if (voteType.equals(VoteType.MULTIPLE_MAX_THREE) && requestOptionId.size() > 3) {
             throw new IllegalStateException("옵션은 세 개까지 선택 가능합니다.");
         }
+    }
+
+    public void sumTotalCount(int count){
+        this.totalVote += count;
     }
 }

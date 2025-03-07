@@ -10,6 +10,6 @@ public record CreateVoteRequest(
         List<String> voteOptions,
         VoteType voteType,
         int durationDays,
-        LocalDateTime endTime
+        boolean isAnonymous
 ) {
 }

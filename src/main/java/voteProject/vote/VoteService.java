@@ -25,22 +25,6 @@ public class VoteService {
         this.voteQRepository = voteQRepository;
     }
 
-    //Todo 투표 상세 조회 (id 와 포함하는 글자로만)
-    public List<VoteFindResponse> searchVoteDetail(String title) {
-
-        List<Vote> votes = voteQRepository.findAll(title);
-
-        return votes.stream().map(
-                v -> new VoteFindResponse(
-                        v.getId(),
-                        v.getTitle(),
-                        v.getTotalVote(),
-                        v.getCreateAt(),
-                        v.getCreateAt().plusDays(v.getDurationDays())
-        )).toList();
-
-    }
-
     public VoteResponse create(CreateVoteRequest createVoteRequest) {
         VoteUser voteUser = voteUserRepository.findById(createVoteRequest.userId()).orElseThrow(() ->
                 new NoSuchElementException("존재하지 않는 user Id " + createVoteRequest.userId()));
@@ -49,8 +33,8 @@ public class VoteService {
                 voteUser,
                 createVoteRequest.title(),
                 createVoteRequest.voteType(),
-                createVoteRequest.endTime(),
-                createVoteRequest.durationDays()
+                createVoteRequest.durationDays(),
+                createVoteRequest.isAnonymous()
         ));
 
         List<VoteOption> voteOptions = voteOptionRepository.saveAll(createVoteRequest.voteOptions()
@@ -72,6 +56,21 @@ public class VoteService {
                 vote.getCreateAt(),
                 vote.getCreateAt().plusDays(vote.getDurationDays())
         );
+
+    }
+
+    public List<VoteFindResponse> findAll(String title) {
+
+        List<Vote> votes = voteQRepository.findAll(title);
+
+        return votes.stream().map(
+                v -> new VoteFindResponse(
+                        v.getId(),
+                        v.getTitle(),
+                        v.getTotalVote(),
+                        v.getCreateAt(),
+                        v.getCreateAt().plusDays(v.getDurationDays())
+        )).toList();
 
     }
 

@@ -24,7 +24,7 @@ public class VoteController {
     @GetMapping("/votes")
     public List<VoteFindResponse> getVoteDetail(
             @RequestParam(required = false) String title) {
-        return voteService.searchVoteDetail(title);
+        return voteService.findAll(title);
     }
 
 

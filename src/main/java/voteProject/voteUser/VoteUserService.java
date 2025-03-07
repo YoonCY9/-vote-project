@@ -14,7 +14,7 @@ public class VoteUserService {
 
 
     @Transactional
-    public void createVoteUser(CreateVoteUserRequest request) {
+    public VoteUserResponse createVoteUser(CreateVoteUserRequest request) {
 
         boolean voteUserExists = voteUserRepository.existsByNickname(request.nickname());
 
@@ -28,6 +28,11 @@ public class VoteUserService {
         );
 
         voteUserRepository.save(voteUser);
+
+        return new VoteUserResponse(
+                voteUser.getId(),
+                voteUser.getNickname()
+        );
 
 
     }

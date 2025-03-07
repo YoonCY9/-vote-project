@@ -16,15 +16,11 @@ public class VoteRecord {
     private Vote vote;
 
     @ManyToOne
-    @JoinColumn(name = "vote_user_id", nullable = true)
+    @JoinColumn(name = "vote_user_id")
     private VoteUser voteUser;
 
     @ManyToOne
     private VoteOption voteOption;
-
-    @Column(nullable = false)
-    private boolean isAnonymous;
-
 
     protected VoteRecord() {
     }
@@ -33,12 +29,10 @@ public class VoteRecord {
         this.vote = vote;
         this.voteUser = voteUser;
         this.voteOption = voteOption;
-        this.isAnonymous = isAnonymous;
     }
 
     public VoteRecord(VoteOption voteOption) {
         this.voteOption = voteOption;
-        this.isAnonymous = isAnonymous;
     }
 
     public Long getId() {
@@ -57,7 +51,4 @@ public class VoteRecord {
         return voteOption;
     }
 
-    public boolean isAnonymous() {
-        return isAnonymous;
-    }
 }
