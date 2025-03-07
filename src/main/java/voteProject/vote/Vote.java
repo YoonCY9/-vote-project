@@ -59,11 +59,10 @@ public class Vote {
     public Vote() {
     }
 
-    public Vote(VoteUser voteUser, String title, VoteType voteType, LocalDateTime endDate, int durationDays) {
+    public Vote(VoteUser voteUser, String title, VoteType voteType, int durationDays) {
         this.voteUser = voteUser;
         this.title = title;
         this.voteType = voteType;
-        this.endDate = endDate;
         this.durationDays = durationDays;
         this.totalVote = 0L;
     }
