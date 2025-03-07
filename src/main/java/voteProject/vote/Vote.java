@@ -65,6 +65,7 @@ public class Vote {
         this.voteType = voteType;
         this.durationDays = durationDays;
         this.totalVote = 0L;
+        this.endDate = LocalDateTime.now().plusDays(this.durationDays);
     }
 
     // 삭제됐는지?????
