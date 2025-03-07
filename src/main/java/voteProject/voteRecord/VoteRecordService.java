@@ -10,6 +10,7 @@ import voteProject.voteUser.VoteUserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class VoteRecordService {
@@ -70,5 +71,17 @@ public class VoteRecordService {
         }
         return responses;
     }
+
+    // voteid로 보트찾고 그 보트에 해당하는 옵션리스트 찾고 옵션하나에 대한 name 리스트 반환
+    public List<String> findNickNameList(Long voteId, Long optionId) {
+        Vote vote = voteRepository.findById(voteId).orElseThrow(() ->
+                new NoSuchElementException("존재하지 않는 투표id" + voteId));
+
+        List<VoteRecord> records = voteRecordRepository.findByVoteIdAndVoteOptionId(voteId, optionId);
+
+        return records.stream().map(r -> r.getVoteUser().getNickname()).toList();
+    }
+
+
 
 }
