@@ -41,12 +41,12 @@ public class VoteTest {
         VoteResponse 투표1 = given().log().all()
                 .contentType(ContentType.JSON)
                 .body(new CreateVoteRequest(
+                        1L,
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         VoteType.SINGLE,
                         1,
                         LocalDateTime.now()
-
                 ))
                 .when()
                 .post("/votes")
@@ -62,6 +62,7 @@ public class VoteTest {
                 .given().log().all()
                 .contentType(ContentType.JSON)
                 .body(new CreateVoteRequest(
+                        1L,
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         VoteType.SINGLE,
@@ -91,6 +92,7 @@ public class VoteTest {
                 .given().log().all()
                 .contentType(ContentType.JSON)
                 .body(new CreateVoteRequest(
+                        1L,
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         VoteType.SINGLE,
@@ -119,9 +121,10 @@ public class VoteTest {
         VoteResponse voteResponse = given().log().all()
                 .contentType(ContentType.JSON)
                 .body(new CreateVoteRequest(
+                        1L,
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
-                        VoteType.MULTIPLE,
+                        VoteType.SINGLE,
                         1,
                         LocalDateTime.now()
                 ))
@@ -159,6 +162,7 @@ public class VoteTest {
         VoteResponse voteResponse = given().log().all()
                 .contentType(ContentType.JSON)
                 .body(new CreateVoteRequest(
+                        1L,
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         VoteType.SINGLE,
@@ -197,6 +201,7 @@ public class VoteTest {
         given().log().all()
                 .contentType(ContentType.JSON)
                 .body(new CreateVoteRequest(
+                        1L,
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         VoteType.SINGLE,
@@ -235,6 +240,7 @@ public class VoteTest {
         given().log().all()
                 .contentType(ContentType.JSON)
                 .body(new CreateVoteRequest(
+                        1L,
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         VoteType.MULTIPLE_MAX_TWO,
