@@ -26,17 +26,13 @@ public class VoteRecordService {
         this.voteOptionRepository = voteOptionRepository1;
     }
 
-    public List<VoteRecordResponse> voting(VoteRecordRequest request){
+    public List<VoteRecordResponse> voting(VoteRecordRequest request) {
 
-        boolean isAnonymous = request.isAnonymous();
 
-        VoteUser voteUser = null;
+        VoteUser voteUser = voteUserRepository.findById(request.voteUserId()).orElseThrow(
+                () -> new IllegalArgumentException("투표에 참여하려면 회원가입이 필요합니다.")
+        );
 
-        if (!isAnonymous) {
-            voteUser  = voteUserRepository.findById(request.voteUserId()).orElseThrow(
-                    () -> new IllegalArgumentException("투표에 참여하려면 회원가입이 필요합니다.")
-            );
-        }
 
         Vote vote = voteRepository.findById(request.voteId()).orElseThrow(
                 () -> new IllegalArgumentException("개설되지 않은 투표입니다.")
@@ -64,7 +60,7 @@ public class VoteRecordService {
             VoteRecord voteRecord = new VoteRecord(vote, voteUser, voteOption);
             voteRecordRepository.save(voteRecord);
 
-            responses.add(new VoteRecordResponse(vote.getId(), isAnonymous ? null : voteUser.getId(), voteOption.getId()));
+            responses.add(new VoteRecordResponse(vote.getId(), voteUser.getId(), voteOption.getId()));
         }
         return responses;
     }
