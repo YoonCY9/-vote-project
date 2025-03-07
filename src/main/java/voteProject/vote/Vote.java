@@ -74,6 +74,8 @@ public class Vote {
         this.title = title;
         this.voteType = voteType;
         this.durationDays = durationDays;
+        this.totalVote = 0L;
+        this.endDate = LocalDateTime.now().plusDays(this.durationDays);
         this.isAnonymous = isAnonymous;
     }
 

@@ -15,6 +15,7 @@ import voteProject.voteRecord.VoteRecordRequest;
 import voteProject.voteRecord.VoteRecordResponse;
 import voteProject.voteUser.CreateVoteUserRequest;
 import voteProject.voteUser.VoteUserRequest;
+import voteProject.voteUser.VoteUserResponse;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,10 +39,20 @@ public class VoteTest {
 
     @Test
     void 투표생성() {
+        VoteUserResponse 유저 = given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateVoteUserRequest("닉네임", "486"))
+                .when()
+                .post("/voteusers")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .as(VoteUserResponse.class);
+
         VoteResponse 투표1 = given().log().all()
                 .contentType(ContentType.JSON)
                 .body(new CreateVoteRequest(
-                        1L,
+                        유저.id(),
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         VoteType.SINGLE,
