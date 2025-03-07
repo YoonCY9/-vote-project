@@ -68,4 +68,10 @@ public class VoteOption {
     public Vote getVote() {
         return vote;
     }
+
+
+    public void countingOption(){
+        this.count ++;
+    }
+
 }

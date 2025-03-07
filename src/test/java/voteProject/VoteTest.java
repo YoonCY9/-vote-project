@@ -15,6 +15,7 @@ import voteProject.voteRecord.VoteRecordRequest;
 import voteProject.voteRecord.VoteRecordResponse;
 import voteProject.voteUser.CreateVoteUserRequest;
 import voteProject.voteUser.VoteUserRequest;
+import voteProject.voteUser.VoteUserResponse;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,14 +39,25 @@ public class VoteTest {
 
     @Test
     void 투표생성() {
+        VoteUserResponse 유저 = given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateVoteUserRequest("닉네임", "486"))
+                .when()
+                .post("/voteusers")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value())
+                .extract()
+                .as(VoteUserResponse.class);
+
         VoteResponse 투표1 = given().log().all()
                 .contentType(ContentType.JSON)
                 .body(new CreateVoteRequest(
-                        1L,
+                        유저.id(),
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         VoteType.SINGLE,
-                        1
+                        1,
+                        false
                 ))
                 .when()
                 .post("/votes")
@@ -65,7 +77,8 @@ public class VoteTest {
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         VoteType.SINGLE,
-                        1
+                        1,
+                        false
                 ))
                 .when()
                 .post("/votes")
@@ -77,7 +90,7 @@ public class VoteTest {
         RestAssured
                 .given().log().all()
                 .contentType(ContentType.JSON)
-                .queryParam("title","저메")
+                .queryParam("title", "저메")
                 .when()
                 .get("/votes")
                 .then().log().all()
@@ -94,7 +107,8 @@ public class VoteTest {
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         VoteType.SINGLE,
-                        1
+                        1,
+                        false
                 ))
                 .when()
                 .post("/votes")
@@ -106,7 +120,7 @@ public class VoteTest {
         RestAssured
                 .given().log().all()
                 .contentType(ContentType.JSON)
-                .pathParam("voteId",투표1.voteId())
+                .pathParam("voteId", 투표1.voteId())
                 .when()
                 .get("/votes/{voteId}")
                 .then().log().all()
@@ -115,40 +129,11 @@ public class VoteTest {
 
     @Test
     void 투표생성및익명투표테스트() {
-        VoteResponse voteResponse = given().log().all()
-                .contentType(ContentType.JSON)
-                .body(new CreateVoteRequest(
-                        1L,
-                        "저메추",
-                        List.of("중국집", "한식", "일식", "양식"),
-                        VoteType.SINGLE,
-                        1
-                ))
-                .when()
-                .post("/votes")
-                .then().log().all()
-                .statusCode(200)
-                .extract()
-                .as(VoteResponse.class);
-
 
         RestAssured
                 .given().log().all()
                 .contentType(ContentType.JSON)
-                .body(new VoteRecordRequest(voteResponse.voteId(), null, List.of(1L,3L), true))
-                .when()
-                .post("/voteRecords")
-                .then().log().all()
-                .statusCode(HttpStatus.OK.value());
-    }
-
-    @Test
-    void 유저생성투표생성및비익명투표테스트() {
-
-        RestAssured
-                .given().log().all()
-                .contentType(ContentType.JSON)
-                .body(new CreateVoteUserRequest("닉네임", "486"))
+                .body(new CreateVoteUserRequest("닉네임1", "486"))
                 .when()
                 .post("/voteusers")
                 .then().log().all()
@@ -162,7 +147,8 @@ public class VoteTest {
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         VoteType.SINGLE,
-                        1
+                        1,
+                        true
                 ))
                 .when()
                 .post("/votes")
@@ -175,7 +161,16 @@ public class VoteTest {
         RestAssured
                 .given().log().all()
                 .contentType(ContentType.JSON)
-                .body(new VoteRecordRequest(voteResponse.voteId(), 1L, List.of(1L), false))
+                .body(new CreateVoteUserRequest("닉네임2", "486"))
+                .when()
+                .post("/voteusers")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new VoteRecordRequest(voteResponse.voteId(), 2L, List.of(1L), true))
                 .when()
                 .post("/voteRecords")
                 .then().log().all()
@@ -183,7 +178,57 @@ public class VoteTest {
     }
 
     @Test
-    void 유저생성투표생성및비익명단일투표_예외테스트 (){
+    void 투표생성및비익명투표테스트() {
+
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateVoteUserRequest("닉네임1", "486"))
+                .when()
+                .post("/voteusers")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+
+        VoteResponse voteResponse = given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateVoteRequest(
+                        1L,
+                        "저메추",
+                        List.of("중국집", "한식", "일식", "양식"),
+                        VoteType.SINGLE,
+                        1,
+                        false
+                ))
+                .when()
+                .post("/votes")
+                .then().log().all()
+                .statusCode(200)
+                .extract()
+                .as(VoteResponse.class);
+
+
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateVoteUserRequest("닉네임2", "486"))
+                .when()
+                .post("/voteusers")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new VoteRecordRequest(voteResponse.voteId(), 2L, List.of(1L), false))
+                .when()
+                .post("/voteRecords")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+    }
+
+    @Test
+    void 유저생성투표생성및비익명단일투표_예외테스트() {
         RestAssured
                 .given().log().all()
                 .contentType(ContentType.JSON)
@@ -200,7 +245,8 @@ public class VoteTest {
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         VoteType.SINGLE,
-                        1
+                        1,
+                        false
                 ))
                 .when()
                 .post("/votes")
@@ -221,7 +267,7 @@ public class VoteTest {
     }
 
     @Test
-    void 유저생성투표생성및비익명중복투표_예외테스트 (){
+    void 유저생성투표생성및비익명중복투표_예외테스트() {
         RestAssured
                 .given().log().all()
                 .contentType(ContentType.JSON)
@@ -238,7 +284,8 @@ public class VoteTest {
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         VoteType.MULTIPLE_MAX_TWO,
-                        1
+                        1,
+                        false
                 ))
                 .when()
                 .post("/votes")
