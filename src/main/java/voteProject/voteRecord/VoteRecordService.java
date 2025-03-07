@@ -57,6 +57,12 @@ public class VoteRecordService {
                     () -> new IllegalArgumentException("존재하지 않는 옵션입니다.")
             );
 
+            //option별로 득표수 합산 count
+            voteOption.countingOption();
+
+            //총 득표수 합산
+            vote.sumTotalCount(request.voteOptionIdList().size());
+
             VoteRecord voteRecord = new VoteRecord(vote, voteUser, voteOption);
             voteRecordRepository.save(voteRecord);
 

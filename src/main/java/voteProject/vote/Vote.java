@@ -157,4 +157,8 @@ public class Vote {
             throw new IllegalStateException("옵션은 세 개까지 선택 가능합니다.");
         }
     }
+
+    public void sumTotalCount(int count){
+        this.totalVote += count;
+    }
 }
