@@ -42,6 +42,9 @@ public class VoteRecordService {
                 () -> new IllegalArgumentException("개설되지 않은 투표입니다.")
         );
 
+        // 삭제 됐는지? 삭제됐다면 오류 발생
+        vote.isDeleted();
+
         //voteType에 맞는 옵션 선택인지 검증
         vote.validateOptionCount(request.voteOptionIdList());
 

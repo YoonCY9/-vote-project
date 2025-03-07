@@ -1,13 +1,12 @@
 package voteProject.vote;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import voteProject.vote.voteDTO.*;
-
+import voteProject.vote.voteDTO.CreateVoteRequest;
+import voteProject.vote.voteDTO.VoteDetailResponse;
+import voteProject.vote.voteDTO.VoteFindResponse;
+import voteProject.vote.voteDTO.VoteResponse;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 public class VoteController {
@@ -29,9 +28,9 @@ public class VoteController {
     }
 
 
-    @PostMapping("/votes/{userid}")
-    public VoteResponse create(@RequestBody CreateVoteRequest createVoteRequest, @PathVariable Long userid){
-        return voteService.create(createVoteRequest, userid);
+    @PostMapping("/votes")
+    public VoteResponse create(@RequestBody CreateVoteRequest createVoteRequest){
+        return voteService.create(createVoteRequest);
     }
 
 

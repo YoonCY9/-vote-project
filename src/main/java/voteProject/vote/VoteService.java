@@ -7,8 +7,6 @@ import voteProject.voteOption.VoteOption;
 import voteProject.voteOption.VoteOptionRepository;
 import voteProject.voteUser.VoteUser;
 import voteProject.voteUser.VoteUserRepository;
-
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -43,9 +41,9 @@ public class VoteService {
 
     }
 
-    public VoteResponse create(CreateVoteRequest createVoteRequest, Long userid) {
-        VoteUser voteUser = voteUserRepository.findById(userid).orElseThrow(() ->
-                new NoSuchElementException("존재하지 않는 user Id " + userid));
+    public VoteResponse create(CreateVoteRequest createVoteRequest) {
+        VoteUser voteUser = voteUserRepository.findById(createVoteRequest.userId()).orElseThrow(() ->
+                new NoSuchElementException("존재하지 않는 user Id " + createVoteRequest.userId()));
 
         Vote vote = voteRepository.save(new Vote(
                 voteUser,

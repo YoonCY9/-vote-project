@@ -1,8 +1,6 @@
 package voteProject.voteUser;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import voteProject.vote.Vote;
 import voteProject.voteRecord.VoteRecord;
 
 import java.util.List;

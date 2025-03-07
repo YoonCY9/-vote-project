@@ -1,7 +1,6 @@
 package voteProject.vote.voteDTO;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public record VoteFindResponse(
         Long voteId,
