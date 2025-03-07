@@ -74,19 +74,12 @@ public class VoteService {
         );
 
     }
-//    //Todo 상세 조회 포함하는 날짜(?create = value) / 종료 날짜 (? endTime = value)
-//    public List<VoteDetailResponse> searchVoteByDate(Long startDate, Long endDate) {
-//
-//    }
-
 
     public VoteDetailResponse findByVoteId(Long voteId) {
         Vote vote = voteRepository.findById(voteId).orElseThrow(() ->
                 new NoSuchElementException("존재하지 않는 voteId" + voteId));
 
         vote.isDeleted();
-
-        Long totalVote = vote.getTotalVote();
 
         List<VoteOption> voteOptions = voteOptionRepository.findByVoteId(vote.getId());
 
@@ -95,7 +88,7 @@ public class VoteService {
                         v.getId(),
                         v.getContent(),
                         v.getCount(),
-                        v.votePercentage(totalVote)
+                        v.votePercentage(vote.getTotalVote())
                 )).toList();
 
         return new VoteDetailResponse(
