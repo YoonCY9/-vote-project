@@ -16,7 +16,7 @@ public class VoteRecord {
     private Vote vote;
 
     @ManyToOne
-    @JoinColumn(name = "vote_user_id", nullable = true)
+    @JoinColumn(name = "vote_user_id")
     private VoteUser voteUser;
 
     @ManyToOne

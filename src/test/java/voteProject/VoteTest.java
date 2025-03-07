@@ -45,8 +45,7 @@ public class VoteTest {
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         VoteType.SINGLE,
-                        1,
-                        LocalDateTime.now()
+                        1
                 ))
                 .when()
                 .post("/votes")
@@ -66,8 +65,7 @@ public class VoteTest {
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         VoteType.SINGLE,
-                        1,
-                        LocalDateTime.now()
+                        1
                 ))
                 .when()
                 .post("/votes")
@@ -96,8 +94,7 @@ public class VoteTest {
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         VoteType.SINGLE,
-                        1,
-                        LocalDateTime.now()
+                        1
                 ))
                 .when()
                 .post("/votes")
@@ -125,8 +122,7 @@ public class VoteTest {
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         VoteType.SINGLE,
-                        1,
-                        LocalDateTime.now()
+                        1
                 ))
                 .when()
                 .post("/votes")
@@ -166,8 +162,7 @@ public class VoteTest {
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         VoteType.SINGLE,
-                        1,
-                        LocalDateTime.now()
+                        1
                 ))
                 .when()
                 .post("/votes")
@@ -205,8 +200,7 @@ public class VoteTest {
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         VoteType.SINGLE,
-                        1,
-                        LocalDateTime.now()
+                        1
                 ))
                 .when()
                 .post("/votes")
@@ -244,8 +238,7 @@ public class VoteTest {
                         "저메추",
                         List.of("중국집", "한식", "일식", "양식"),
                         VoteType.MULTIPLE_MAX_TWO,
-                        1,
-                        LocalDateTime.now()
+                        1
                 ))
                 .when()
                 .post("/votes")
