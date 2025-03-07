@@ -33,7 +33,8 @@ public class VoteService {
                 voteUser,
                 createVoteRequest.title(),
                 createVoteRequest.voteType(),
-                createVoteRequest.durationDays()
+                createVoteRequest.durationDays(),
+                createVoteRequest.isAnonymous()
         ));
 
         List<VoteOption> voteOptions = voteOptionRepository.saveAll(createVoteRequest.voteOptions()

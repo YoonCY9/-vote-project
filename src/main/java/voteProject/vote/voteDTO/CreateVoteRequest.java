@@ -9,6 +9,7 @@ public record CreateVoteRequest(
         String title,
         List<String> voteOptions,
         VoteType voteType,
-        int durationDays
+        int durationDays,
+        boolean isAnonymous
 ) {
 }
