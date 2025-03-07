@@ -80,8 +80,6 @@ public class VoteService {
 
         vote.isDeleted();
 
-        Long totalVote = vote.getTotalVote();
-
         List<VoteOption> voteOptions = voteOptionRepository.findByVoteId(vote.getId());
 
         List<VoteOptionDetailResponse> optionResponseList = voteOptions.stream()
@@ -89,7 +87,7 @@ public class VoteService {
                         v.getId(),
                         v.getContent(),
                         v.getCount(),
-                        v.votePercentage(totalVote)
+                        v.votePercentage(vote.getTotalVote())
                 )).toList();
 
         return new VoteDetailResponse(
