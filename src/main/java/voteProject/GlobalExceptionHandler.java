@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
     }
 
     //409 conflict
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalStateException.class)
     public ApiResponse<Void> handleIllegalStateException(IllegalStateException exIllegalState){
         logger.error("message", exIllegalState);
