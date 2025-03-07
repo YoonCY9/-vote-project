@@ -14,8 +14,8 @@ public class VoteUserRestController {
     }
 
     @PostMapping("/voteusers")
-    public void createVoteUser(@RequestBody CreateVoteUserRequest request){
-        voteUserService.createVoteUser(request);
+    public VoteUserResponse createVoteUser(@RequestBody CreateVoteUserRequest request){
+        return voteUserService.createVoteUser(request);
     }
 
 
