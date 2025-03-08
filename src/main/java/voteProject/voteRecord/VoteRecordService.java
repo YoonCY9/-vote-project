@@ -42,6 +42,9 @@ public class VoteRecordService {
         // 삭제 됐는지? 삭제됐다면 오류 발생
         vote.isDeleted();
 
+        //투표에 없는 옵션 선택 검증
+        vote.validationOfOptionId(request.voteOptionIdList());
+
         //voteType에 맞는 옵션 선택인지 검증
         vote.validateOptionCount(request.voteOptionIdList());
 

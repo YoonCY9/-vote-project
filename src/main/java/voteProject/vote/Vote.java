@@ -8,6 +8,7 @@ import voteProject.voteRecord.VoteRecord;
 import voteProject.voteUser.VoteUser;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 
 @EntityListeners(AuditingEntityListener.class)
@@ -126,7 +127,8 @@ public class Vote {
 
     public VoteUser getVoteUser() {
         return voteUser;
-      
+    }
+
     public boolean isAnonymous() {
         return isAnonymous;
     }
@@ -165,5 +167,17 @@ public class Vote {
 
     public void sumTotalCount(int count){
         this.totalVote += count;
+    }
+
+    //vote에 매핑되어 있는 List<VoteOption>의 id에
+    //request로 사용자가 선택한 optionId가 포함되어 있는지 검증
+    public void validationOfOptionId(List<Long> requestOptionId){
+        List<Long> optionIdInVote = voteOption.stream()
+                .map(VoteOption::getId)
+                .toList();
+
+        if(!new HashSet<>(optionIdInVote).containsAll(requestOptionId)){
+            throw new IllegalArgumentException("투표에 없는 옵션에는 접근할 수 없습니다.");
+        }
     }
 }
