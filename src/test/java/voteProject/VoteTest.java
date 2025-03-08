@@ -305,5 +305,44 @@ public class VoteTest {
                 .body("message", equalTo("옵션은 두 개까지 선택 가능합니다."));
     }
 
+    @Test
+    void 투표에없는옵션선택검증(){
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateVoteUserRequest("닉네임", "486"))
+                .when()
+                .post("/voteusers")
+                .then().log().all()
+                .statusCode(HttpStatus.OK.value());
+
+        given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new CreateVoteRequest(
+                        1L,
+                        "저메추",
+                        List.of("중국집", "한식", "일식", "양식"),
+                        VoteType.MULTIPLE_MAX_TWO,
+                        1,
+                        false
+                ))
+                .when()
+                .post("/votes")
+                .then().log().all()
+                .statusCode(200)
+                .extract()
+                .as(VoteResponse.class);
+
+        RestAssured
+                .given().log().all()
+                .contentType(ContentType.JSON)
+                .body(new VoteRecordRequest(1L, 1L, List.of(1L, 6L), false))
+                .when()
+                .post("/voteRecords")
+                .then().log().all()
+                .statusCode(400)
+                .body("message", equalTo("투표에 없는 옵션에는 접근할 수 없습니다."));
+    }
+
 
 }
