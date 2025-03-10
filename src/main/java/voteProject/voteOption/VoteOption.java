@@ -6,6 +6,7 @@ import voteProject.voteRecord.VoteRecord;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.HashSet;
 import java.util.List;
 
 @Entity
